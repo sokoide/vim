@@ -148,9 +148,9 @@ return {
 					cwd = "${workspaceFolder}",
 					stopOnEntry = false,
 					args = {},
-					-- sourceMap = {
-					-- 	["/path/to/local"] = "/path/to/remote",
-					-- },
+					sourceMap = {
+						["/Users/scott/workspace"] = "/Users/scott/Library/CloudStorage/OneDrive-Personal/workspace",
+					},
 				},
 			}
 
@@ -188,5 +188,9 @@ return {
 	-- dirdiff
 	{
 		"will133/vim-dirdiff",
+	},
+	-- vim-fugitive の追加
+	{
+		"tpope/vim-fugitive",
 	},
 }

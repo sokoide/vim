@@ -1,38 +1,25 @@
--- keymap
+-- buffer
 vim.keymap.set("n", "<C-p>", "<Cmd>bprevious<CR>", { silent = true })
 vim.keymap.set("n", "<C-n>", "<Cmd>bnext<CR>", { silent = true })
 vim.keymap.set("n", "<leader>q", "<Cmd>copen<CR><Cmd>cfirst<CR>")
 -- vim.keymap.set("n", "<leader>m", "<Cmd>make<CR><Cmd>copen<CR><Cmd>cfirst<CR>", { silent = true })
 -- vim.keymap.set("n", "<leader>m", "<Cmd>make<CR><Cmd>bwipeout<CR>", { silent = true })
 vim.keymap.set("n", "<leader>m", "<Cmd>make!<CR><Cmd>copen<CR><Cmd>cfirst<CR>", { silent = true })
-
--- goto definition
-vim.keymap.set("n", "<C-e>d", function()
-	vim.lsp.buf.definition()
-end, { desc = "Go to definition" })
-
-vim.keymap.set("n", "<C-e>t", function()
-	vim.lsp.buf.type_definition()
-end, { desc = "Type definition" })
-
-vim.keymap.set("n", "<C-e>i", function()
-	vim.lsp.buf.implementation()
-end, { desc = "Implementation" })
-
-vim.keymap.set("n", "<C-e>r", function()
-	vim.lsp.buf.references()
-end, { desc = "Find references" })
-
-vim.keymap.set("n", "<C-e>h", function()
-	vim.lsp.buf.hover()
-end, { desc = "Hover" })
-
-vim.keymap.set("n", "<C-e>R", function()
-	vim.lsp.buf.rename()
-end, { desc = "Rename" })
+vim.keymap.set("n", "<leader>]", "<Cmd>qa<CR>")
 
 -- neo-tree
 vim.keymap.set("n", "<C-e>e", "<Cmd>Neotree toggle<CR>", { silent = true })
+
+-- LSP Saga
+vim.keymap.set("n", "gr", "<cmd>Lspsaga finder<CR>", opts)
+vim.keymap.set("n", "gp", "<cmd>Lspsaga peek_definition<CR>", opts)
+vim.keymap.set("n", "<leader>rn", "<cmd>Lspsaga rename<CR>", opts)
+vim.keymap.set("n", "<leader>ca", "<cmd>Lspsaga code_action<CR>", opts)
+
+-- Diagnostics
+vim.keymap.set("n", "gl", vim.diagnostic.open_float)
+vim.keymap.set("n", "[d", vim.diagnostic.goto_prev)
+vim.keymap.set("n", "]d", vim.diagnostic.goto_next)
 
 -- Telescope
 local telescope = require("telescope.builtin")
@@ -41,6 +28,7 @@ local telescope = require("telescope.builtin")
 vim.keymap.set("n", "<leader>ff", function()
 	telescope.find_files({ default_text = vim.fn.expand("<cword>") })
 end, { desc = "Finde files with <cword>" })
+-- live grep
 vim.keymap.set("n", "<leader>fg", function()
 	telescope.live_grep({ default_text = vim.fn.expand("<cword>") })
 end, { desc = "Live grep with <cword>" })
@@ -54,11 +42,8 @@ vim.keymap.set("n", "<leader>fS", function()
 	telescope.lsp_workspace_symbols({ query = vim.fn.expand("<cword>") })
 end, { desc = "Find workspace symbol <cword>" })
 
--- Code actions/diagnostics
-vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, { desc = "Code action" })
-vim.keymap.set("n", "<leader>cd", vim.diagnostic.open_float)
-vim.keymap.set("n", "[d", vim.diagnostic.goto_prev)
-vim.keymap.set("n", "]d", vim.diagnostic.goto_next)
+-- references
+vim.keymap.set("n", "<leader>fr", telescope.lsp_references, opts)
 
 -- Codex Terminal
 vim.keymap.set("n", "<leader>ct", function()
@@ -187,3 +172,7 @@ end, { desc = "Run Go Test for all packages" })
 -- overseer
 vim.keymap.set("n", "<leader>r", "<Cmd>OverseerRun make_run<CR>")
 vim.keymap.set("n", "<leader>R", "<Cmd>OverseerToggle<CR>")
+
+-- vim-fugitive
+vim.keymap.set("n", "<leader>gd", ":Gvdiffsplit<CR>", { desc = "Git Diff (Index)" })
+vim.keymap.set("n", "<leader>gh", ":Gvdiffsplit HEAD<CR>", { desc = "Git Diff (HEAD)" })

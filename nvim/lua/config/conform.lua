@@ -12,6 +12,7 @@ conform.setup({
 		typescript = { "prettier" },
 		javascriptreact = { "prettier" },
 		typescriptreact = { "prettier" },
+		json = { "prettierd", "prettier", "jq", stop_after_first = true },
 
 		cs = { "csharpier" }, -- C#
 		java = { "google-java-format" }, -- Java

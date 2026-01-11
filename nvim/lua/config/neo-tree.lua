@@ -13,10 +13,24 @@ require("neo-tree").setup({
 		icon = {
 			folder_closed = "",
 			folder_open = "",
-			folder_empty = "ﰊ",
+			folder_empty = "󰉖",
+			folder_empty_open = "󰉖",
 			default = "",
 			highlight = "NeoTreeFileIcon",
 		},
+		-- indent = {
+		-- 	with_expanders = true,
+		-- 	expander_collapsed = "󰅂",
+		-- 	expander_expanded = "󰅀",
+		-- 	expander_highlight = "NeoTreeExpander",
+		-- },
+	},
+	filesystem = {
+		async_directory_scan = "always", -- 常に非同期でスキャン
+		-- ここが重要：ディレクトリの状態をどう扱うか
+		-- 'deep' に設定すると、サブディレクトリまで含めて空かどうかを判定しようとします
+		-- ただし、パフォーマンスに影響が出る可能性があるため注意
+		scan_mode = "shallow",
 	},
 	window = {
 		mappings = {

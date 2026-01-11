@@ -29,11 +29,39 @@ vim.opt.wrap = true
 -- keymap
 require("config.keymap")
 
--- autocmd
+-- quick close
 vim.api.nvim_create_autocmd("FileType", {
 	pattern = { "qf", "help", "man", "lspinfo", "Trouble", "toggleterm" },
 	callback = function()
 		vim.keymap.set("n", "q", "<cmd>close<CR>", { buffer = true, silent = true })
+	end,
+})
+--- initial launcy by nvim -d
+vim.api.nvim_create_autocmd("VimEnter", {
+	callback = function()
+		if vim.o.diff then
+			-- 全てのウィンドウ（左右の比較画面）でwrapを有効にする
+			vim.cmd("windo set wrap")
+		end
+	end,
+})
+local diffgroup = vim.api.nvim_create_augroup("DiffWrap", { clear = true })
+vim.api.nvim_create_autocmd({ "BufWinEnter", "OptionSet" }, {
+	group = diffgroup,
+	pattern = "*",
+	callback = function()
+		if vim.wo.diff then
+			vim.wo.wrap = true
+		end
+	end,
+})
+-- manual :diffthis
+vim.api.nvim_create_autocmd("OptionSet", {
+	pattern = "diff",
+	callback = function()
+		if vim.v.option_new == "true" or vim.v.option_new == 1 then
+			vim.wo.wrap = true
+		end
 	end,
 })
 
