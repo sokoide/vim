@@ -68,7 +68,7 @@ vim.keymap.set("n", "<leader>h", function()
 end, { desc = "Show line diagnostics" })
 
 -- Aerial
-vim.keymap.set("n", "<leader>a", "<cmd>AerialToggle!<CR>", { desc = "Toggle Aerial outline" })
+vim.keymap.set("n", "<leader>ao", "<cmd>AerialToggle!<CR>", { desc = "Toggle Aerial outline" })
 -- nvim-dap
 local dap = require("dap")
 local dapui = require("dapui")

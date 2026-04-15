@@ -1,0 +1,35 @@
+# Serena
+.serena
+
+# macOS
+.DS_Store
+
+# Vim / Neovim
+# Swap
+[._]*.s[a-v][a-z]
+[._]*.sw[a-p]
+[._]s[a-rt-v][a-z]
+[._]ss[a-gi-z]
+[._]sw?
+
+# Backup
+*~
+*.bak
+*.orig
+
+# Undo
+*.un~
+undo/
+
+# Shada / Session
+shada/
+session/
+
+# Netrw
+.netrwhist
+
+# Tags
+tags
+
+# Logs
+*.log

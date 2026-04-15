@@ -1,4 +1,19 @@
---  lazy.nvim bnpm i -g pyrightootstrap
+-- Source ~/.glm for API keys (ANTHROPIC_AUTH_TOKEN, ANTHROPIC_BASE_URL, etc.)
+do
+	local f = io.open(vim.fn.expand("~/.glm"), "r")
+	if f then
+		for line in f:lines() do
+			local k, v = line:match("^export%s+(%S+)=(.+)")
+			if k and v then
+				v = v:gsub('^["\']', ""):gsub('["\']$', "")
+				vim.env[k] = v
+			end
+		end
+		f:close()
+	end
+end
+
+--  lazy.nvim bootstrap
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then
 	vim.fn.system({
@@ -28,6 +43,16 @@ vim.opt.wrap = true
 
 -- keymap
 require("config.keymap")
+
+-- Disable completion/analysis for CodeCompanion chat buffers
+vim.api.nvim_create_autocmd("FileType", {
+	pattern = "codecompanion",
+	callback = function()
+		vim.b.completion = false
+		-- Disable treesitter for this buffer
+		vim.treesitter.stop()
+	end,
+})
 
 -- quick close
 vim.api.nvim_create_autocmd("FileType", {
