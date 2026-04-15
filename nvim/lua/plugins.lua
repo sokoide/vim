@@ -36,7 +36,17 @@ return {
 	},
 
 	-- Telescope（fzf代替）
-	{ "nvim-telescope/telescope.nvim", tag = "0.1.5" },
+	{
+		"nvim-telescope/telescope.nvim",
+		tag = "0.1.5",
+		config = function()
+			require("telescope").setup({})
+			require("telescope").load_extension("ui-select")
+		end,
+		dependencies = {
+			"nvim-telescope/telescope-ui-select.nvim",
+		},
+	},
 
 	-- Treesitter（Syntaxと構造解析）
 	{
@@ -65,7 +75,16 @@ return {
 	-- },
 
 	-- Colorscheme
-	{ "sainnhe/sonokai" },
+	-- Colorscheme
+	{
+		"folke/tokyonight.nvim",
+		lazy = false,
+		priority = 1000,
+		opts = {
+			-- style: storm, night, moon, day
+			style = "moon",
+		},
+	},
 
 	-- golangci-lint=langserver
 	{
@@ -222,7 +241,12 @@ return {
 			})
 
 			-- Generic actions
-			vim.keymap.set({ "n", "v" }, "<leader>aa", "<cmd>CodeCompanionActions<CR>", { silent = true, desc = "AI Actions" })
+			vim.keymap.set(
+				{ "n", "v" },
+				"<leader>aa",
+				"<cmd>CodeCompanionActions<CR>",
+				{ silent = true, desc = "AI Actions" }
+			)
 
 			-- Specific Chats (Lua API to ensure correct adapter)
 			vim.keymap.set("n", "<leader>aic", function()

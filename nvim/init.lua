@@ -97,4 +97,4 @@ vim.api.nvim_create_autocmd("OptionSet", {
 })
 
 -- color scheme
-vim.cmd("colorscheme sonokai")
+vim.cmd("colorscheme tokyonight")
