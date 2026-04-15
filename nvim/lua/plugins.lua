@@ -298,7 +298,7 @@ return {
 					},
 				},
 				virtualtext = {
-					auto_trigger_ft = { "lua", "go", "python", "javascript", "typescript", "cpp", "c" },
+					auto_trigger_ft = {},
 					enable_predicates = {
 						function()
 							return vim.bo.filetype ~= "codecompanion"
