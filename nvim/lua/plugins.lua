@@ -75,15 +75,15 @@ return {
 	-- },
 
 	-- Colorscheme
-	-- Colorscheme
 	{
-		"folke/tokyonight.nvim",
+		"sainnhe/sonokai",
 		lazy = false,
 		priority = 1000,
-		opts = {
-			-- style: storm, night, moon, day
-			style = "moon",
-		},
+		config = function()
+			vim.g.sonokai_style = "maia"
+			vim.g.sonokai_enable_italic = true
+			vim.cmd("colorscheme sonokai")
+		end,
 	},
 
 	-- golangci-lint=langserver

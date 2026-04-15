@@ -73,6 +73,8 @@ vim.keymap.set("n", "<leader>ao", "<cmd>AerialToggle!<CR>", { desc = "Toggle Aer
 local dap = require("dap")
 local dapui = require("dapui")
 
+vim.fn.sign_define('DapBreakpoint', {text='●', texthl='DiagnosticSignError', linehl='', numhl=''})
+
 vim.keymap.set("n", "<F5>", function()
 	dap.continue()
 end)
