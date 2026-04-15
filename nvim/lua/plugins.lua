@@ -144,19 +144,16 @@ return {
 		config = function()
 			local dap = require("dap")
 
-			dap.adapters.codelldb = {
-				type = "server",
-				port = "${port}",
-				executable = {
-					command = vim.fn.expand("~/Downloads/extension/adapter/codelldb"),
-					args = { "--port", "${port}" },
-				},
+			dap.adapters.lldb = {
+				type = "executable",
+				command = "/data/data/com.termux/files/usr/bin/lldb-dap",
+				name = "lldb",
 			}
 
 			dap.configurations.cpp = {
 				{
 					name = "Launch C++",
-					type = "codelldb",
+					type = "lldb",
 					request = "launch",
 					program = function()
 						return vim.fn.input("Path to executable: ", vim.fn.getcwd() .. "/", "file")
@@ -164,9 +161,6 @@ return {
 					cwd = "${workspaceFolder}",
 					stopOnEntry = false,
 					args = {},
-					sourceMap = {
-						["/Users/scott/workspace"] = "/Users/scott/Library/CloudStorage/OneDrive-Personal/workspace",
-					},
 				},
 			}
 

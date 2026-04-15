@@ -1,7 +1,11 @@
--- Termux: set temp directory (no /tmp on Android)
-if vim.fn.isdirectory("/tmp") == 0 and vim.env.TERMUX_VERSION then
-	vim.env.TMPDIR = vim.env.PREFIX .. "/tmp"
-	vim.env.XDG_RUNTIME_DIR = vim.env.TMPDIR
+-- Termux: set temp directory (no /tmp on Android or it's not writable)
+if vim.env.TERMUX_VERSION then
+	local tmp = (vim.env.PREFIX or "/data/data/com.termux/files/usr") .. "/tmp"
+	if vim.fn.isdirectory(tmp) == 0 then
+		vim.fn.mkdir(tmp, "p")
+	end
+	vim.env.TMPDIR = tmp
+	vim.env.XDG_RUNTIME_DIR = tmp
 end
 
 -- Source ~/.glm for API keys (ANTHROPIC_AUTH_TOKEN, ANTHROPIC_BASE_URL, etc.)

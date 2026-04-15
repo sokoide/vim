@@ -1,3 +1,3 @@
 require("lualine").setup({
-	options = { theme = "sonokai" },
+	options = { theme = "tokyonight" },
 })
