@@ -136,36 +136,22 @@ return {
 		"rcarriga/nvim-dap-ui",
 		dependencies = { "mfussenegger/nvim-dap", "nvim-neotest/nvim-nio" },
 		config = function()
-			require("dapui").setup()
+			local dapui = require("dapui")
+			dapui.setup()
+			local dap = require("dap")
+			dap.listeners.after.event_initialized["dapui_config"] = function()
+				dapui.open()
+			end
+			dap.listeners.before.event_terminated["dapui_config"] = function()
+				dapui.close()
+			end
+			require("config.dap")
 		end,
 	},
 	{
 		"mfussenegger/nvim-dap",
 		config = function()
-			local dap = require("dap")
-
-			dap.adapters.lldb = {
-				type = "executable",
-				command = "/data/data/com.termux/files/usr/bin/lldb-dap",
-				name = "lldb",
-			}
-
-			dap.configurations.cpp = {
-				{
-					name = "Launch C++",
-					type = "lldb",
-					request = "launch",
-					program = function()
-						return vim.fn.input("Path to executable: ", vim.fn.getcwd() .. "/", "file")
-					end,
-					cwd = "${workspaceFolder}",
-					stopOnEntry = false,
-					args = {},
-				},
-			}
-
-			-- C も C++ と同じ設定を共有
-			dap.configurations.c = dap.configurations.cpp
+			require("config.dap")
 		end,
 	},
 	-- lspsaga

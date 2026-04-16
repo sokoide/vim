@@ -74,6 +74,8 @@ local dap = require("dap")
 local dapui = require("dapui")
 
 vim.fn.sign_define('DapBreakpoint', {text='●', texthl='DiagnosticSignError', linehl='', numhl=''})
+vim.fn.sign_define('DapBreakpointRejected', {text='●', texthl='DiagnosticSignError', linehl='', numhl=''})
+vim.fn.sign_define('DapStopped', {text='▶', texthl='DiagnosticSignInfo', linehl='DapStoppedLine', numhl=''})
 
 vim.keymap.set("n", "<F5>", function()
 	dap.continue()
