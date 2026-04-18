@@ -8,7 +8,7 @@ local function smart_open(state)
 end
 
 require("neo-tree").setup({
-	width = 32,
+	width = 16,
 	default_component_configs = {
 		icon = {
 			folder_closed = "",
