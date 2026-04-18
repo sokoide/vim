@@ -51,7 +51,7 @@ return {
 	-- Treesitter（Syntaxと構造解析）
 	{
 		"nvim-treesitter/nvim-treesitter",
-		run = ":TSUpdate",
+		build = ":TSUpdate",
 		config = function()
 			require("config.treesitter")
 		end,
