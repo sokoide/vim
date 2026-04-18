@@ -15,7 +15,7 @@ do
 		for line in f:lines() do
 			local k, v = line:match("^export%s+(%S+)=(.+)")
 			if k and v then
-				v = v:gsub('^["\']', ""):gsub('["\']$', "")
+				v = v:gsub("^[\"']", ""):gsub("[\"']$", "")
 				vim.env[k] = v
 			end
 		end
@@ -50,6 +50,63 @@ vim.opt.shiftwidth = 4
 vim.opt.smartindent = true
 vim.opt.clipboard = "unnamedplus"
 vim.opt.wrap = true
+
+-- Auto-reload files changed externally
+local function watch_file(bufnr)
+	local file_path = vim.api.nvim_buf_get_name(bufnr)
+	if file_path == "" or file_path:match("://") then
+		return
+	end
+
+	local w = vim.uv.new_fs_event()
+	if not w then
+		return
+	end
+
+	w:start(
+		file_path,
+		{},
+		vim.schedule_wrap(function(err)
+			if err then
+				w:stop()
+				return
+			end
+			vim.cmd("checktime")
+		end)
+	)
+
+	-- バッファを閉じたら監視も止める（ここが重要！）
+	vim.api.nvim_create_autocmd("BufWipeout", {
+		buffer = bufnr,
+		once = true,
+		callback = function()
+			if not w:is_closing() then
+				w:stop()
+			end
+		end,
+	})
+end
+
+-- バッファを開いた時に監視を開始する
+vim.api.nvim_create_autocmd("BufReadPost", {
+	group = vim.api.nvim_create_augroup("VimImmediateReload", { clear = true }),
+	callback = function(args)
+		watch_file(args.buf)
+	end,
+})
+
+-- autoread自体は有効にしておく
+vim.o.autoread = true
+
+-- FocusGained（フォーカス移動）と CursorHold（アイドル時）でチェックする
+vim.api.nvim_create_autocmd({ "FocusGained", "CursorHold", "BufEnter" }, {
+	callback = function()
+		-- コマンド入力中でなければチェックする
+		if vim.fn.mode() ~= "c" then
+			vim.cmd("checktime")
+		end
+	end,
+})
 
 -- keymap
 require("config.keymap")
