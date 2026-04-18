@@ -5,7 +5,7 @@ require("noice").setup({
 	},
 	views = {
 		notify = {
-			timeout = 300,
+			timeout = 1000,
 		},
 	},
 })
