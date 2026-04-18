@@ -191,32 +191,51 @@ return {
 		config = function()
 			require("codecompanion").setup({
 				adapters = {
-					http = {
-						anthropic = function()
-							return require("codecompanion.adapters").extend("anthropic", {
-								env = { api_key = "ANTHROPIC_AUTH_TOKEN" },
-								url = (vim.env.ANTHROPIC_BASE_URL or "https://api.anthropic.com") .. "/v1/messages",
-								schema = { model = { default = "claude-3-5-sonnet-latest" } },
-							})
-						end,
-						gemini = function()
-							return require("codecompanion.adapters").extend("gemini", {
-								env = { api_key = "GEMINI_API_KEY" },
-								schema = { model = { default = "gemini-2.0-flash" } },
-							})
-						end,
-						openai = function()
-							return require("codecompanion.adapters").extend("openai", {
-								env = { api_key = "OPENAI_API_KEY" },
-								schema = { model = { default = "gpt-4o" } },
-							})
-						end,
-					},
+					anthropic = function()
+						return require("codecompanion.adapters").extend("anthropic", {
+							env = { api_key = "ANTHROPIC_AUTH_TOKEN" },
+							url = (vim.env.ANTHROPIC_BASE_URL or "https://api.anthropic.com") .. "/v1/messages",
+							schema = { model = { default = "claude-3-5-sonnet-latest" } },
+						})
+					end,
+					gemini = function()
+						return require("codecompanion.adapters").extend("gemini", {
+							env = { api_key = "GEMINI_API_KEY" },
+							schema = { model = { default = "gemini-3.1-flash-lite" } },
+						})
+					end,
+					gemini_cli = function()
+						return require("codecompanion.adapters").extend("gemini", {
+							env = { api_key = "GEMINI_API_KEY" },
+							schema = { model = { default = "gemini-3.1-flash-lite" } },
+						})
+					end,
+					openai = function()
+						return require("codecompanion.adapters").extend("openai", {
+							env = { api_key = "OPENAI_API_KEY" },
+							schema = { model = { default = "gpt-4o" } },
+						})
+					end,
+					zai = function()
+						return require("codecompanion.adapters").extend("openai", {
+							env = { api_key = "ANTHROPIC_AUTH_TOKEN" },
+							url = "https://api.z.ai/api/coding/paas/v4/chat/completions",
+							schema = { model = { default = "glm-4.7" } },
+						})
+					end,
 				},
-				interactions = {
+				strategies = {
 					chat = { adapter = "gemini" },
 					inline = { adapter = "gemini" },
 					cmd = { adapter = "gemini" },
+				},
+				display = {
+					diff = {
+						provider = "vertical",
+					},
+				},
+				opts = {
+					log_level = "DEBUG",
 				},
 			})
 
@@ -230,7 +249,7 @@ return {
 
 			-- Specific Chats (Lua API to ensure correct adapter)
 			vim.keymap.set("n", "<leader>aic", function()
-				require("codecompanion").chat({ params = { adapter = "anthropic" } })
+				require("codecompanion").chat({ params = { adapter = "zai" } })
 			end, { silent = true, desc = "AI Chat (Claude)" })
 			vim.keymap.set("n", "<leader>aig", function()
 				require("codecompanion").chat({ params = { adapter = "gemini" } })
@@ -244,7 +263,7 @@ return {
 
 			-- Visual mode Chat Add
 			vim.keymap.set("v", "<leader>aic", function()
-				require("codecompanion").chat({ params = { adapter = "anthropic" } })
+				require("codecompanion").chat({ params = { adapter = "zai" } })
 			end, { silent = true, desc = "AI Chat Add (Claude)" })
 			vim.keymap.set("v", "<leader>aig", function()
 				require("codecompanion").chat({ params = { adapter = "gemini" } })
@@ -268,23 +287,29 @@ return {
 		},
 		config = function()
 			require("minuet").setup({
-				provider = "gemini",
+				provider = "openai_compatible",
 				provider_options = {
-					openai = {
-						model = "gpt-4o",
-						api_key = "OPENAI_API_KEY",
+					openai = {},
+					openai_compatible = {
+						model = "glm-4.5-air",
+						end_point = "https://api.z.ai/api/coding/paas/v4/chat/completions",
+						api_key = "ANTHROPIC_AUTH_TOKEN",
+						name = "z.ai",
 					},
 					gemini = {
-						model = "gemini-1.5-flash",
+						model = "gemini-3.1-flash-lite",
 						api_key = "GEMINI_API_KEY",
 					},
 					anthropic = {
-						model = "claude-3-5-sonnet-20240620",
+						-- model = "claude-3-5-sonnet-20240620",
+						model = "glm-4.5-air",
 						api_key = "ANTHROPIC_AUTH_TOKEN",
 					},
 				},
 				virtualtext = {
+					-- auto_trigger_ft = { "lua", "python", "javascript", "typescript", "rust", "go", "c", "cpp" },
 					auto_trigger_ft = {},
+					auto_trigger_ignore_ft = { "codecompanion" },
 					enable_predicates = {
 						function()
 							return vim.bo.filetype ~= "codecompanion"
@@ -299,6 +324,11 @@ return {
 					},
 				},
 			})
+
+			-- manual trigger
+			vim.keymap.set("i", "<A-f>", function()
+				require("minuet.virtualtext").action.next()
+			end, { desc = "Minuet AI Show" })
 		end,
 	},
 	-- Completion UI (includes Minuet source)

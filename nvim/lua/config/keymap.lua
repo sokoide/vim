@@ -173,6 +173,16 @@ end, { desc = "Run Go Test for all packages" })
 -- overseer
 vim.keymap.set("n", "<leader>r", "<Cmd>OverseerRun make_run<CR>")
 vim.keymap.set("n", "<leader>R", "<Cmd>OverseerToggle<CR>")
+vim.keymap.set("n", "<leader>k", function()
+	local overseer = require("overseer")
+	local tasks = overseer.list_tasks({ running = true })
+	if #tasks > 0 then
+		tasks[1]:stop()
+		vim.notify("Task stopped: " .. tasks[1].name)
+	else
+		vim.notify("No running tasks")
+	end
+end, { desc = "Kill running Overseer task" })
 
 -- vim-fugitive
 vim.keymap.set("n", "<leader>gd", ":Gvdiffsplit<CR>", { desc = "Git Diff (Index)" })
