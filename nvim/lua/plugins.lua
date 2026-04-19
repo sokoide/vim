@@ -237,13 +237,8 @@ return {
 				display = {
 					chat = {
 						window = {
-							layout = "float",
-							relative = "editor",
-							width = 0.8,
-							height = 0.8,
-							row = 0.1,
-							col = 0.1,
-							border = "rounded",
+							layout = "vertical",
+							width = 0.4,
 						},
 					},
 					diff = {
@@ -385,11 +380,13 @@ return {
 				sources = cmp.config.sources(sources),
 			})
 
-			-- Disable cmp entirely for CodeCompanion chat buffers
+			-- Disable cmp and treesitter for CodeCompanion chat buffers
 			vim.api.nvim_create_autocmd("FileType", {
 				pattern = "codecompanion",
-				callback = function()
+				callback = function(ev)
 					cmp.setup.buffer({ enabled = false })
+					vim.treesitter.stop(ev.buf)
+					vim.bo[ev.buf].syntax = "on"
 				end,
 			})
 		end,
