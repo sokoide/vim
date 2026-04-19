@@ -11,6 +11,8 @@ end
 
 -- Codex専用ターミナル（常駐）
 local codex = nil
+local gemini = nil
+local claude = nil
 
 function M.toggle_codex()
 	if not codex then
@@ -22,6 +24,30 @@ function M.toggle_codex()
 		})
 	end
 	codex:toggle()
+end
+
+function M.toggle_gemini()
+	if not gemini then
+		gemini = require("toggleterm.terminal").Terminal:new({
+			cmd = "gemini",
+			direction = "float",
+			float_opts = { border = "curved" },
+			hidden = true,
+		})
+	end
+	gemini:toggle()
+end
+
+function M.toggle_claude()
+	if not claude then
+		claude = require("toggleterm.terminal").Terminal:new({
+			cmd = "claude",
+			direction = "float",
+			float_opts = { border = "curved" },
+			hidden = true,
+		})
+	end
+	claude:toggle()
 end
 
 return M

@@ -37,10 +37,15 @@
 
 ### AI アシスト
 *   **AI アクションメニュー**: `<leader>aa`
+*   **AI チャット (Claude/z.ai)**: `<leader>aic` (またはデフォルトのチャット)
 *   **AI チャット (Gemini API)**: `<leader>aig`
-*   **AI チャット (Claude)**: `<leader>aic`
-*   **AI インライン生成**: `<leader>an`
+*   **AI インライン生成**: `<leader>an` (デフォルトで Claude を使用)
 *   **AI 補完の手動トリガー**: `<A-f>`
+
+### AI CLI (Overlay Terminal)
+*   **Gemini CLI**: `<leader>ag` (フローティングウィンドウで Gemini を起動)
+*   **Claude CLI**: `<leader>ac` (フローティングウィンドウで Claude を起動)
+*   **Codex Terminal**: `<leader>ct` (フローティングウィンドウで Codex を起動)
 
 ### Go 開発関連
 *   **テスト (関数単位)**: `<leader>tf`

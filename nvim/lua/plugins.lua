@@ -66,13 +66,13 @@ return {
 	},
 
 	-- Terminal（Codex常駐用）
-	-- {
-	-- 	"akinsho/toggleterm.nvim",
-	-- 	version = "*",
-	-- 	config = function()
-	-- 		require("config.terminal").setup()
-	-- 	end,
-	-- },
+	{
+		"akinsho/toggleterm.nvim",
+		version = "*",
+		config = function()
+			require("config.terminal").setup()
+		end,
+	},
 
 	-- Colorscheme
 	{
@@ -191,45 +191,61 @@ return {
 		config = function()
 			require("codecompanion").setup({
 				adapters = {
-					anthropic = function()
-						return require("codecompanion.adapters").extend("anthropic", {
-							env = { api_key = "ANTHROPIC_AUTH_TOKEN" },
-							url = (vim.env.ANTHROPIC_BASE_URL or "https://api.anthropic.com") .. "/v1/messages",
-							schema = { model = { default = "claude-3-5-sonnet-latest" } },
-						})
-					end,
-					gemini = function()
-						return require("codecompanion.adapters").extend("gemini", {
-							env = { api_key = "GEMINI_API_KEY" },
-							schema = { model = { default = "gemini-3.1-flash-lite" } },
-						})
-					end,
-					gemini_cli = function()
-						return require("codecompanion.adapters").extend("gemini", {
-							env = { api_key = "GEMINI_API_KEY" },
-							schema = { model = { default = "gemini-3.1-flash-lite" } },
-						})
-					end,
-					openai = function()
-						return require("codecompanion.adapters").extend("openai", {
-							env = { api_key = "OPENAI_API_KEY" },
-							schema = { model = { default = "gpt-4o" } },
-						})
-					end,
-					zai = function()
-						return require("codecompanion.adapters").extend("openai", {
-							env = { api_key = "ANTHROPIC_AUTH_TOKEN" },
-							url = "https://api.z.ai/api/coding/paas/v4/chat/completions",
-							schema = { model = { default = "glm-4.7" } },
-						})
-					end,
+					http = {
+						anthropic = function()
+							return require("codecompanion.adapters").extend("anthropic", {
+								env = { api_key = "ANTHROPIC_AUTH_TOKEN" },
+								schema = { model = { default = "claude-3-5-sonnet-latest" } },
+							})
+						end,
+						gemini = function()
+							return require("codecompanion.adapters").extend("gemini", {
+								env = { api_key = "GEMINI_API_KEY" },
+								schema = { model = { default = "gemini-3.1-flash-lite" } },
+							})
+						end,
+						gemini_cli = function()
+							return require("codecompanion.adapters").extend("gemini", {
+								env = { api_key = "GEMINI_API_KEY" },
+								schema = { model = { default = "gemini-3.1-flash-lite" } },
+							})
+						end,
+						openai_chatgpt = function()
+							return require("codecompanion.adapters").extend("openai", {
+								env = { api_key = "OPENAI_API_KEY" },
+								schema = { model = { default = "gpt-4o" } },
+							})
+						end,
+						zai = function()
+							return require("codecompanion.adapters").extend("openai", {
+								env = { api_key = "ANTHROPIC_AUTH_TOKEN" },
+								url = "https://api.z.ai/api/coding/paas/v4/chat/completions",
+								schema = {
+									model = {
+										default = "glm-5.1",
+									},
+								},
+							})
+						end,
+					},
 				},
 				strategies = {
-					chat = { adapter = "gemini" },
-					inline = { adapter = "gemini" },
+					chat = { adapter = "zai" },
+					inline = { adapter = "zai" },
 					cmd = { adapter = "gemini" },
 				},
 				display = {
+					chat = {
+						window = {
+							layout = "float",
+							relative = "editor",
+							width = 0.8,
+							height = 0.8,
+							row = 0.1,
+							col = 0.1,
+							border = "rounded",
+						},
+					},
 					diff = {
 						provider = "vertical",
 					},
@@ -258,7 +274,7 @@ return {
 				require("codecompanion").chat({ params = { adapter = "gemini_cli" } })
 			end, { silent = true, desc = "AI Chat (Gemini Login)" })
 			vim.keymap.set("n", "<leader>aix", function()
-				require("codecompanion").chat({ params = { adapter = "openai" } })
+				require("codecompanion").chat({ params = { adapter = "openai_chatgpt" } })
 			end, { silent = true, desc = "AI Chat (ChatGPT)" })
 
 			-- Visual mode Chat Add
@@ -272,11 +288,12 @@ return {
 				require("codecompanion").chat({ params = { adapter = "gemini_cli" } })
 			end, { silent = true, desc = "AI Chat Add (Gemini Login)" })
 			vim.keymap.set("v", "<leader>aix", function()
-				require("codecompanion").chat({ params = { adapter = "openai" } })
+				require("codecompanion").chat({ params = { adapter = "openai_chatgpt" } })
 			end, { silent = true, desc = "AI Chat Add (ChatGPT)" })
 
 			-- Inline mapping
 			vim.keymap.set("n", "<leader>an", "<cmd>CodeCompanion<CR>", { silent = true, desc = "AI Inline" })
+			vim.keymap.set("v", "<leader>an", "<cmd>CodeCompanion<CR>", { silent = true, desc = "AI Inline (visual)" })
 		end,
 	},
 	-- AI Completion / Suggestion

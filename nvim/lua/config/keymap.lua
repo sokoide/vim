@@ -50,6 +50,14 @@ vim.keymap.set("n", "<leader>ct", function()
 	require("config.terminal").toggle_codex()
 end, { desc = "Toggle Codex Terminal" })
 
+vim.keymap.set("n", "<leader>ag", function()
+	require("config.terminal").toggle_gemini()
+end, { desc = "Toggle Gemini CLI" })
+
+vim.keymap.set("n", "<leader>ac", function()
+	require("config.terminal").toggle_claude()
+end, { desc = "Toggle Claude CLI" })
+
 -- Window
 vim.keymap.set("n", "<C-h>", "<C-w>h")
 vim.keymap.set("n", "<C-j>", "<C-w>j")
