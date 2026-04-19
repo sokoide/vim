@@ -381,6 +381,16 @@ return {
 	{
 		"will133/vim-dirdiff",
 	},
+	-- markdown preview
+	{
+		"iamcco/markdown-preview.nvim",
+		cmd = { "MarkdownPreviewToggle", "MarkdownPreview", "MarkdownPreviewStop" },
+		ft = { "markdown" },
+		build = "cd app && (pnpm install || npm install) && (pnpm add msgpack-lite || npm install msgpack-lite)",
+		init = function()
+			vim.g.mkdp_filetypes = { "markdown" }
+		end,
+	},
 	-- vim-fugitive の追加
 	{
 		"tpope/vim-fugitive",

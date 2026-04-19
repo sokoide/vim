@@ -8,7 +8,6 @@ local function smart_open(state)
 end
 
 require("neo-tree").setup({
-	width = 16,
 	default_component_configs = {
 		icon = {
 			folder_closed = "",
@@ -18,24 +17,16 @@ require("neo-tree").setup({
 			default = "",
 			highlight = "NeoTreeFileIcon",
 		},
-		-- indent = {
-		-- 	with_expanders = true,
-		-- 	expander_collapsed = "󰅂",
-		-- 	expander_expanded = "󰅀",
-		-- 	expander_highlight = "NeoTreeExpander",
-		-- },
 	},
 	filesystem = {
-		async_directory_scan = "always", -- 常に非同期でスキャン
-		-- ここが重要：ディレクトリの状態をどう扱うか
-		-- 'deep' に設定すると、サブディレクトリまで含めて空かどうかを判定しようとします
-		-- ただし、パフォーマンスに影響が出る可能性があるため注意
+		async_directory_scan = "always",
 		scan_mode = "shallow",
 	},
 	window = {
+		width = 32,
 		mappings = {
-			["o"] = smart_open, -- ← 一行どこで押しても NERDTree と同じ
-			["<space>"] = "none", -- ← 左端 space の “menu” を完全に無効化
+			["o"] = smart_open,
+			["<space>"] = "none",
 			["x"] = "close_node",
 			["s"] = "open_split",
 			["v"] = "open_vsplit",
