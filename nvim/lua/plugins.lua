@@ -201,13 +201,13 @@ return {
 						gemini = function()
 							return require("codecompanion.adapters").extend("gemini", {
 								env = { api_key = "GEMINI_API_KEY" },
-								schema = { model = { default = "gemini-3.1-flash-lite" } },
+								schema = { model = { default = "gemini-3.1-flash-lite-preview" } },
 							})
 						end,
 						gemini_cli = function()
 							return require("codecompanion.adapters").extend("gemini", {
 								env = { api_key = "GEMINI_API_KEY" },
-								schema = { model = { default = "gemini-3.1-flash-lite" } },
+								schema = { model = { default = "gemini-3.1-flash-lite-preview" } },
 							})
 						end,
 						openai_chatgpt = function()
@@ -289,6 +289,22 @@ return {
 			-- Inline mapping
 			vim.keymap.set("n", "<leader>an", "<cmd>CodeCompanion<CR>", { silent = true, desc = "AI Inline" })
 			vim.keymap.set("v", "<leader>an", "<cmd>CodeCompanion<CR>", { silent = true, desc = "AI Inline (visual)" })
+
+				-- Neovim 0.12.1 treesitter bug workarounds
+				local _ts_start = vim.treesitter.start
+				vim.treesitter.start = function(buf, ...)
+					if vim.bo[buf or 0].filetype == "codecompanion" then
+						return
+					end
+					return _ts_start(buf, ...)
+				end
+				local _ts_get_range = vim.treesitter.get_range
+				vim.treesitter.get_range = function(node, source, metadata)
+					if node == nil then
+						return { 0, 0, 0, 0 }
+					end
+					return _ts_get_range(node, source, metadata)
+				end
 		end,
 	},
 	-- AI Completion / Suggestion
@@ -380,15 +396,30 @@ return {
 				sources = cmp.config.sources(sources),
 			})
 
-			-- Disable cmp and treesitter for CodeCompanion chat buffers
+			-- Disable cmp for CodeCompanion chat buffers
 			vim.api.nvim_create_autocmd("FileType", {
 				pattern = "codecompanion",
 				callback = function(ev)
 					cmp.setup.buffer({ enabled = false })
-					vim.treesitter.stop(ev.buf)
-					vim.bo[ev.buf].syntax = "on"
 				end,
 			})
+			-- Neovim 0.12.1 treesitter bug workarounds
+			-- 1. Prevent treesitter highlighter on codecompanion buffers
+			local _ts_start = vim.treesitter.start
+			vim.treesitter.start = function(buf, ...)
+				if vim.bo[buf or 0].filetype == "codecompanion" then
+					return
+				end
+				return _ts_start(buf, ...)
+			end
+			-- 2. Guard get_range against nil nodes (token counting path)
+			local _ts_get_range = vim.treesitter.get_range
+			vim.treesitter.get_range = function(node, source, metadata)
+				if node == nil then
+					return { 0, 0, 0, 0 }
+				end
+				return _ts_get_range(node, source, metadata)
+			end
 		end,
 	},
 	-- dirdiff
