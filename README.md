@@ -30,36 +30,70 @@
 
 日常的な開発で頻繁に使用するキーマップです。
 
-### 基本操作・表示
+### 基本操作・ウィンドウ
 *   **ファイルツリー切り替え**: `<C-e>e`
 *   **コードアウトライン表示**: `<leader>ao`
 *   **ウィンドウ移動**: `<C-h>`, `<C-j>`, `<C-k>`, `<C-l>`
+*   **バッファ切り替え**: `<C-p>` (前), `<C-n>` (次)
+*   **Quickfixを開く**: `<leader>q`
+*   **Neovim終了**: `<leader>]`
 
-### AI アシスト
+### LSP / 診断 (Diagnostics)
+行番号の横に表示される `W` (Warning) や `E` (Error) の詳細を確認する操作です。
+
+*   **詳細をフロート表示**: `gl` (カーソル位置), `<leader>h` (行全体)
+*   **次/前の診断へジャンプ**: `]d`, `[d`
+*   **エラー一覧をQuickfixで表示**: `<leader>e`
+*   **警告一覧をQuickfixで表示**: `<leader>w`
+*   **LSP定義確認/参照**: `gp` (定義覗き見), `gr` (参照/定義ファインダー)
+*   **リネーム / コードアクション**: `<leader>rn`, `<leader>ca`
+
+### 検索 (Telescope)
+*   **ファイル検索**: `<leader>ff` (カーソル下のワードで検索)
+*   **Live Grep**: `<leader>fg` (カーソル下のワードで検索)
+*   **バッファ検索**: `<leader>fb`
+*   **ドキュメント内シンボル**: `<leader>fs`
+*   **ワークスペース内シンボル**: `<leader>fS`
+*   **LSP参照一覧**: `<leader>fr`
+
+### AI アシスト (CodeCompanion)
 *   **AI アクションメニュー**: `<leader>aa`
-*   **AI チャット (Claude/z.ai)**: `<leader>aic` (またはデフォルトのチャット)
+*   **AI チャット (Claude)**: `<leader>aic`
 *   **AI チャット (Gemini API)**: `<leader>aig`
-*   **AI インライン生成**: `<leader>an` (デフォルトで Claude を使用)
-*   **AI 補完の手動トリガー**: `<A-f>`
+*   **AI チャット (Gemini Login)**: `<leader>ail`
+*   **AI チャット (ChatGPT)**: `<leader>aix`
+*   **AI インライン生成**: `<leader>an` (ノーマル/ビジュアルモード両対応)
+
+### AI 補完 (Minuet AI)
+*   **手動トリガー**: `<A-f>`
+*   **補完採用**: `<A-a>` (または `<Tab>`)
+*   **次/前の候補**: `<A-]>`, `<A-[>`
+*   **破棄**: `<A-e>`
 
 ### AI CLI (Overlay Terminal)
-*   **Gemini CLI**: `<leader>ag` (フローティングウィンドウで Gemini を起動)
-*   **Claude CLI**: `<leader>ac` (フローティングウィンドウで Claude を起動)
-*   **Codex Terminal**: `<leader>ct` (フローティングウィンドウで Codex を起動)
+*   **Codex Terminal**: `<leader>ct`
+*   **Gemini CLI**: `<leader>ag`
+*   **Claude CLI**: `<leader>ac`
 
 ### Go 開発関連
-*   **テスト (関数単位)**: `<leader>tf`
+*   **テスト (関数単位)**: `<leader>tf` (カーソル下の Test 関数を実行)
 *   **テスト (ファイル単位)**: `<leader>tt`
 *   **テスト (全パッケージ)**: `<leader>ta`
+
+### タスク実行 (Overseer)
+*   **make実行**: `<leader>m` (Quickfixで結果表示)
+*   **タスク実行 (選択)**: `<leader>r`
+*   **タスク一覧表示**: `<leader>R`
+*   **実行中タスクの停止**: `<leader>k`
 
 ### デバッグ (DAP)
 *   **実行/継続**: `<F5>`
 *   **ブレークポイント切り替え**: `<F9>`
-*   **ステップオーバー**: `<F10>`
-*   **ステップイン**: `<F11>`
-*   **ステップアウト**: `<F12>`
+*   **ステップオーバー/イン/アウト**: `<F10>`, `<F11>`, `<F12>`
+*   **REPL表示**: `<leader>dr`
+*   **デバッグ停止**: `<leader>dt`
 
-### Git 操作
+### Git 操作 (Fugitive)
 *   **Git Diff (Index)**: `<leader>gd`
 *   **Git Diff (HEAD)**: `<leader>gh`
 
