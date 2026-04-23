@@ -130,6 +130,24 @@ return {
 		dependencies = "mfussenegger/nvim-dap",
 		config = function()
 			require("dap-go").setup()
+			local dap = require("dap")
+			dap.adapters.go = {
+				type = "server",
+				port = "${port}",
+				executable = {
+					command = "dlv",
+					args = {
+						"dap",
+						"-l",
+						"127.0.0.1:${port}",
+						"--check-go-version=false",
+						"--only-same-user=false",
+					},
+				},
+				options = {
+					initialize_timeout_sec = 20,
+				},
+			}
 		end,
 	},
 	{
