@@ -34,6 +34,7 @@
 *   **ファイルツリー切り替え**: `<C-e>e`
 *   **コードアウトライン表示**: `<leader>ao`
 *   **ウィンドウ移動**: `<C-h>`, `<C-j>`, `<C-k>`, `<C-l>`
+*   **ウィンドウ幅リサイズ**: `<leader>+` (増), `<leader>-` (減)
 *   **バッファ切り替え**: `<C-p>` (前), `<C-n>` (次)
 *   **Quickfixを開く**: `<leader>q`
 *   **Neovim終了**: `<leader>]`
@@ -66,9 +67,16 @@
 
 ### AI 補完 (Minuet AI)
 *   **手動トリガー**: `<A-f>`
-*   **補完採用**: `<A-a>` (または `<Tab>`)
+*   **補完採用**: `<A-y>`
+*   **行採用**: `<A-l>`
 *   **次/前の候補**: `<A-]>`, `<A-[>`
 *   **破棄**: `<A-e>`
+
+### 補完UI (nvim-cmp)
+*   **補完完了**: `<C-y>`
+*   **確定**: `<CR>`
+*   **中止**: `<C-e>`
+*   **次/前のアイテム**: `<Tab>`, `<S-Tab>`
 
 ### AI CLI (Overlay Terminal)
 *   **Codex Terminal**: `<leader>ct`
@@ -94,8 +102,8 @@
 *   **デバッグ停止**: `<leader>dt`
 
 ### Git 操作 (Fugitive)
-*   **Git Diff (Index)**: `<leader>gd`
-*   **Git Diff (HEAD)**: `<leader>gh`
+*   **Git Diff (Index)**: `<leader>gd` (`:Gvdiffsplit` - 垂直分割)
+*   **Git Diff (HEAD)**: `<leader>gh` (`:Gvdiffsplit HEAD` - 垂直分割)
 
 ---
 

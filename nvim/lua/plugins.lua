@@ -405,7 +405,7 @@ return {
 					autocomplete = { require("cmp.types").cmp.TriggerEvent.TextChanged },
 				},
 				mapping = cmp.mapping.preset.insert({
-					["<C-Space>"] = cmp.mapping.complete(),
+					["<C-y>"] = cmp.mapping.complete(),
 					["<CR>"] = cmp.mapping.confirm({ select = true }),
 					["<C-e>"] = cmp.mapping.abort(),
 					["<Tab>"] = cmp.mapping.select_next_item(),
