@@ -64,6 +64,10 @@ vim.keymap.set("n", "<C-j>", "<C-w>j")
 vim.keymap.set("n", "<C-k>", "<C-w>k")
 vim.keymap.set("n", "<C-l>", "<C-w>l")
 
+-- Resize window width
+vim.keymap.set("n", "<leader>+", "<C-w>5>", { desc = "Increase window width by 5" })
+vim.keymap.set("n", "<leader>-", "<C-w>5<", { desc = "Decrease window width by 5" })
+
 -- warnings & errors
 vim.keymap.set("n", "<leader>w", function()
 	vim.diagnostic.setqflist({ severity = vim.diagnostic.severity.WARN })
