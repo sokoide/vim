@@ -112,6 +112,34 @@ end)
 vim.keymap.set("n", "<leader>dt", function()
 	dap.terminate()
 end)
+-- DAP UI maximize/restore toggle
+local dapui_maximized = false
+
+vim.keymap.set("n", "<leader>du", function()
+	if dapui_maximized then
+		-- Restore: reopen DAP UI
+		dapui.close()
+		dapui.open()
+		dapui_maximized = false
+	else
+		-- Maximize: close other DAP UI windows
+		local current_win = vim.api.nvim_get_current_win()
+		local current_buf = vim.api.nvim_win_get_buf(current_win)
+		local current_name = vim.api.nvim_buf_get_name(current_buf)
+
+		for _, win in ipairs(vim.api.nvim_list_wins()) do
+			if win ~= current_win then
+				local buf = vim.api.nvim_win_get_buf(win)
+				local name = vim.api.nvim_buf_get_name(buf)
+				-- Check if it's a DAP UI buffer (matches "DAP " prefix or "[dap-repl")
+				if name:match("DAP ") or name:match("%[dap%-") then
+					vim.api.nvim_win_close(win, true)
+				end
+			end
+		end
+		dapui_maximized = true
+	end
+end, { desc = "Maximize/Restore DAP UI pane" })
 dap.listeners.after.event_initialized["dapui_config"] = function()
 	dapui.open()
 end

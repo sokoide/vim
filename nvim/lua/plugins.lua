@@ -172,6 +172,17 @@ return {
 			require("config.dap")
 		end,
 	},
+	-- Session management for DAP UI layout
+	{
+		"stevearc/resession.nvim",
+		config = function()
+			require("resession").setup({
+				buffers = {
+					skip_unlisted = false,
+				},
+			})
+		end,
+	},
 	-- lspsaga
 	{
 		"nvimdev/lspsaga.nvim",
