@@ -32,5 +32,11 @@ conform.setup({
 
 conform.formatters.clang_format = {
 	command = "clang-format",
-	args = { "-style=file", "-assume-filename", vim.api.nvim_buf_get_name(0) },
+	args = function(ctx)
+		local filename = ctx.bufname or "untitled.cpp"
+		if filename == "" then
+			filename = "untitled.cpp"
+		end
+		return { "--assume-filename=" .. filename, "--style=file" }
+	end,
 }
