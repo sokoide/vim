@@ -100,8 +100,11 @@ return {
 		priority = 1000,
 		config = function()
 			vim.g.sonokai_style = "maia"
-			vim.g.sonokai_enable_italic = true
 			vim.cmd("colorscheme sonokai")
+			-- コメントのイタリックを無効化（テーマの色を維持）
+			local comment_hl = vim.api.nvim_get_hl(0, { name = "Comment" })
+			comment_hl.italic = false
+			vim.api.nvim_set_hl(0, "Comment", comment_hl)
 		end,
 	},
 
