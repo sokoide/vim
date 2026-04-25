@@ -129,8 +129,10 @@ return {
 		ft = "go",
 		dependencies = "mfussenegger/nvim-dap",
 		config = function()
-			require("dap-go").setup()
 			local dap = require("dap")
+			if vim.fn.filereadable(vim.fn.getcwd() .. "/.vscode/launch.json") == 0 then
+				require("dap-go").setup()
+			end
 			dap.adapters.go = {
 				type = "server",
 				port = "${port}",
