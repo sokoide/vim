@@ -2,6 +2,22 @@ return {
 	-- コア
 	{ "nvim-lua/plenary.nvim" },
 
+	-- Inline diagnostics (VSCode-like)
+	{
+		"rachartier/tiny-inline-diagnostic.nvim",
+		event = "VeryLazy",
+		config = function()
+			require("tiny-inline-diagnostic").setup({
+				options = {
+					show_source = true,
+					use_icons_from_diagnostic = true,
+					softwrap = 30,
+				},
+			})
+			vim.diagnostic.config({ virtual_text = false })
+		end,
+	},
+
 	-- devicons
 	{ "nvim-tree/nvim-web-devicons", lazy = true },
 
