@@ -51,22 +51,25 @@ local function get_launch_program()
 	return vim.fn.getcwd() .. "/"
 end
 
-dap.configurations.cpp = {
-	{
-		name = "Launch C++",
-		type = "lldb",
-		request = "launch",
-		program = function()
-			return vim.fn.input("Path to executable: ", get_launch_program(), "file")
-		end,
-		cwd = "${workspaceFolder}",
-		stopOnEntry = false,
-		args = {},
-		initCommands = {
-			"breakpoint set --name main",
+-- .vscode/launch.json がある場合はそちらを使い、静的設定は登録しない
+if vim.fn.filereadable(vim.fn.getcwd() .. "/.vscode/launch.json") == 0 then
+	dap.configurations.cpp = {
+		{
+			name = "Launch C++",
+			type = "lldb",
+			request = "launch",
+			program = function()
+				return vim.fn.input("Path to executable: ", get_launch_program(), "file")
+			end,
+			cwd = "${workspaceFolder}",
+			stopOnEntry = false,
+			args = {},
+			initCommands = {
+				"breakpoint set --name main",
+			},
 		},
-	},
-}
+	}
 
--- C も C++ と同じ設定を共有
-dap.configurations.c = dap.configurations.cpp
+	-- C も C++ と同じ設定を共有
+	dap.configurations.c = dap.configurations.cpp
+end
