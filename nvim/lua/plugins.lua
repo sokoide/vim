@@ -275,7 +275,7 @@ return {
 								url = "https://api.z.ai/api/coding/paas/v4/chat/completions",
 								schema = {
 									model = {
-										default = "glm-5.1",
+										default = "GLM-4.7",
 									},
 								},
 							})
@@ -372,7 +372,7 @@ return {
 				provider_options = {
 					openai = {},
 					openai_compatible = {
-						model = "GLM-4.7-Flash",
+						model = "GLM-4.5-Air",
 						end_point = "https://api.z.ai/api/coding/paas/v4/chat/completions",
 						api_key = "ANTHROPIC_AUTH_TOKEN",
 						name = "z.ai",
@@ -383,7 +383,7 @@ return {
 					},
 					anthropic = {
 						-- model = "claude-3-5-sonnet-20240620",
-						model = "GLM-4.7-Flash",
+						model = "GLM-4.5-Air",
 						api_key = "ANTHROPIC_AUTH_TOKEN",
 					},
 				},
