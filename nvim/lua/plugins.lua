@@ -412,28 +412,15 @@ return {
 			end, { desc = "Minuet AI Show" })
 		end,
 	},
-	-- Completion UI (includes Minuet source)
+	-- Completion UI
 	{
 		"hrsh7th/nvim-cmp",
 		dependencies = {
 			"hrsh7th/cmp-buffer",
 			"hrsh7th/cmp-path",
-			"milanglacier/minuet-ai.nvim",
 		},
 		config = function()
 			local cmp = require("cmp")
-			local ok_minuet, minuet = pcall(require, "minuet")
-			if ok_minuet then
-				cmp.register_source("minuet", require("minuet.cmp"):new())
-			end
-
-			local sources = {
-				{ name = "buffer" },
-				{ name = "path" },
-			}
-			if ok_minuet then
-				table.insert(sources, 1, { name = "minuet" })
-			end
 
 			cmp.setup({
 				completion = {
@@ -445,8 +432,18 @@ return {
 					["<C-e>"] = cmp.mapping.abort(),
 					["<Tab>"] = cmp.mapping.select_next_item(),
 					["<S-Tab>"] = cmp.mapping.select_prev_item(),
+					["<Esc>"] = cmp.mapping(function(fallback)
+						if cmp.visible() then
+							cmp.close()
+						else
+							fallback()
+						end
+					end),
 				}),
-				sources = cmp.config.sources(sources),
+				sources = cmp.config.sources({
+					{ name = "buffer" },
+					{ name = "path" },
+				}),
 			})
 
 			-- Disable cmp for CodeCompanion chat buffers
