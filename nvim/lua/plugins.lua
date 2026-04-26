@@ -15,9 +15,9 @@ return {
 				},
 			})
 			vim.diagnostic.config({
-					virtual_text = false,
-					severity_sort = true,
-				})
+				virtual_text = false,
+				severity_sort = true,
+			})
 		end,
 	},
 
@@ -343,21 +343,21 @@ return {
 			vim.keymap.set("n", "<leader>an", "<cmd>CodeCompanion<CR>", { silent = true, desc = "AI Inline" })
 			vim.keymap.set("v", "<leader>an", "<cmd>CodeCompanion<CR>", { silent = true, desc = "AI Inline (visual)" })
 
-				-- Neovim 0.12.1 treesitter bug workarounds
-				local _ts_start = vim.treesitter.start
-				vim.treesitter.start = function(buf, ...)
-					if vim.bo[buf or 0].filetype == "codecompanion" then
-						return
-					end
-					return _ts_start(buf, ...)
+			-- Neovim 0.12.1 treesitter bug workarounds
+			local _ts_start = vim.treesitter.start
+			vim.treesitter.start = function(buf, ...)
+				if vim.bo[buf or 0].filetype == "codecompanion" then
+					return
 				end
-				local _ts_get_range = vim.treesitter.get_range
-				vim.treesitter.get_range = function(node, source, metadata)
-					if node == nil then
-						return { 0, 0, 0, 0 }
-					end
-					return _ts_get_range(node, source, metadata)
+				return _ts_start(buf, ...)
+			end
+			local _ts_get_range = vim.treesitter.get_range
+			vim.treesitter.get_range = function(node, source, metadata)
+				if node == nil then
+					return { 0, 0, 0, 0 }
 				end
+				return _ts_get_range(node, source, metadata)
+			end
 		end,
 	},
 	-- AI Completion / Suggestion
@@ -372,7 +372,7 @@ return {
 				provider_options = {
 					openai = {},
 					openai_compatible = {
-						model = "glm-4.5-air",
+						model = "GLM-4.7-Flash",
 						end_point = "https://api.z.ai/api/coding/paas/v4/chat/completions",
 						api_key = "ANTHROPIC_AUTH_TOKEN",
 						name = "z.ai",
@@ -383,7 +383,7 @@ return {
 					},
 					anthropic = {
 						-- model = "claude-3-5-sonnet-20240620",
-						model = "glm-4.5-air",
+						model = "GLM-4.7-Flash",
 						api_key = "ANTHROPIC_AUTH_TOKEN",
 					},
 				},
@@ -432,13 +432,13 @@ return {
 					["<C-e>"] = cmp.mapping.abort(),
 					["<Tab>"] = cmp.mapping.select_next_item(),
 					["<S-Tab>"] = cmp.mapping.select_prev_item(),
-					["<Esc>"] = cmp.mapping(function(fallback)
-						if cmp.visible() then
-							cmp.close()
-						else
-							fallback()
-						end
-					end),
+					-- ["<Esc>"] = cmp.mapping(function(fallback)
+					-- 	if cmp.visible() then
+					-- 		cmp.close()
+					-- 	else
+					-- 		fallback()
+					-- 	end
+					-- end),
 				}),
 				sources = cmp.config.sources({
 					{ name = "buffer" },

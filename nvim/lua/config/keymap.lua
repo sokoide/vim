@@ -85,9 +85,9 @@ vim.keymap.set("n", "<leader>ao", "<cmd>AerialToggle!<CR>", { desc = "Toggle Aer
 local dap = require("dap")
 local dapui = require("dapui")
 
-vim.fn.sign_define('DapBreakpoint', {text='●', texthl='DiagnosticSignError', linehl='', numhl=''})
-vim.fn.sign_define('DapBreakpointRejected', {text='●', texthl='DiagnosticSignError', linehl='', numhl=''})
-vim.fn.sign_define('DapStopped', {text='▶', texthl='DiagnosticSignInfo', linehl='DapStoppedLine', numhl=''})
+vim.fn.sign_define("DapBreakpoint", { text = "●", texthl = "DiagnosticSignError", linehl = "", numhl = "" })
+vim.fn.sign_define("DapBreakpointRejected", { text = "●", texthl = "DiagnosticSignError", linehl = "", numhl = "" })
+vim.fn.sign_define("DapStopped", { text = "▶", texthl = "DiagnosticSignInfo", linehl = "DapStoppedLine", numhl = "" })
 
 vim.keymap.set("n", "<F5>", function()
 	dap.continue()
@@ -227,3 +227,21 @@ end, { desc = "Kill running Overseer task" })
 -- vim-fugitive
 vim.keymap.set("n", "<leader>gd", ":Gvdiffsplit<CR>", { desc = "Git Diff (Index)" })
 vim.keymap.set("n", "<leader>gh", ":Gvdiffsplit HEAD<CR>", { desc = "Git Diff (HEAD)" })
+
+-- gx
+vim.keymap.set({ "n", "v" }, "gx", function()
+	local url = vim.fn.expand("<cfile>")
+	if url:match("^https?://") then
+		-- URLの場合、OSのデフォルトブラウザで開く
+		if vim.fn.has("mac") == 1 then
+			vim.fn.jobstart({ "open", url })
+		elseif vim.fn.has("unix") == 1 then
+			vim.fn.jobstart({ "xdg-open", url })
+		elseif vim.fn.has("win32") == 1 then
+			vim.fn.jobstart({ "cmd", "/c", "start", url })
+		end
+	else
+		-- URLでない場合は、標準の netrw の gx を実行
+		vim.cmd("normal! gx")
+	end
+end, { desc = "Open URL under cursor" })
