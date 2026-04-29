@@ -23,7 +23,7 @@ require("neo-tree").setup({
 		scan_mode = "shallow",
 	},
 	window = {
-		width = 32,
+		width = 24,
 		mappings = {
 			["o"] = smart_open,
 			["<space>"] = "none",

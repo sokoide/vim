@@ -476,6 +476,22 @@ return {
 	{
 		"will133/vim-dirdiff",
 	},
+    -- markdown
+    {
+        'MeanderingProgrammer/render-markdown.nvim',
+        dependencies = { 'nvim-treesitter/nvim-treesitter', 'nvim-tree/nvim-web-devicons' },
+        ---@module 'render-markdown'
+        ---@type render.md.UserConfig
+        opts = {},
+    },
+    {
+        'dhruvasagar/vim-table-mode',
+        ft = { "markdown" },
+        init = function()
+            vim.g.table_mode_corner = "|"
+            vim.g.table_mode_header_fillchar = "-"
+        end,
+    },
 	-- markdown preview
 	{
 		"iamcco/markdown-preview.nvim",

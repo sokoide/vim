@@ -2,10 +2,11 @@
 vim.keymap.set("n", "<C-p>", "<Cmd>bprevious<CR>", { silent = true })
 vim.keymap.set("n", "<C-n>", "<Cmd>bnext<CR>", { silent = true })
 vim.keymap.set("n", "<leader>q", "<Cmd>copen<CR><Cmd>cfirst<CR>")
--- vim.keymap.set("n", "<leader>m", "<Cmd>make<CR><Cmd>copen<CR><Cmd>cfirst<CR>", { silent = true })
--- vim.keymap.set("n", "<leader>m", "<Cmd>make<CR><Cmd>bwipeout<CR>", { silent = true })
-vim.keymap.set("n", "<leader>m", "<Cmd>make!<CR><Cmd>copen<CR><Cmd>cfirst<CR>", { silent = true })
+vim.keymap.set("n", "<leader>ma", "<Cmd>make!<CR><Cmd>copen<CR><Cmd>cfirst<CR>", { silent = true })
 vim.keymap.set("n", "<leader>]", "<Cmd>qa<CR>")
+
+-- markdown
+vim.keymap.set("n", "<leader>md", "<Cmd>RenderMarkdown toggle<CR>")
 
 -- neo-tree
 vim.keymap.set("n", "<C-e>e", "<Cmd>Neotree toggle<CR>", { silent = true })
