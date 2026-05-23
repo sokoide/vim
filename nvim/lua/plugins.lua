@@ -254,13 +254,13 @@ return {
 						gemini = function()
 							return require("codecompanion.adapters").extend("gemini", {
 								env = { api_key = "GEMINI_API_KEY" },
-								schema = { model = { default = "gemini-3.1-flash-lite-preview" } },
+								schema = { model = { default = "gemini-3.1-flash-lite" } },
 							})
 						end,
 						gemini_cli = function()
 							return require("codecompanion.adapters").extend("gemini", {
 								env = { api_key = "GEMINI_API_KEY" },
-								schema = { model = { default = "gemini-3.1-flash-lite-preview" } },
+								schema = { model = { default = "gemini-3.1-flash-lite" } },
 							})
 						end,
 						openai_chatgpt = function()
@@ -280,12 +280,23 @@ return {
 								},
 							})
 						end,
+						litellm = function()
+							return require("codecompanion.adapters").extend("openai", {
+								env = { api_key = "dummy" },
+								url = "http://localhost:4000/v1/chat/completions",
+								schema = {
+									model = {
+										default = "sonnet",
+									},
+								},
+							})
+						end,
 					},
 				},
 				strategies = {
-					chat = { adapter = "zai" },
-					inline = { adapter = "zai" },
-					cmd = { adapter = "gemini" },
+					chat = { adapter = "litellm" },
+					inline = { adapter = "litellm" },
+					cmd = { adapter = "litellm" },
 				},
 				display = {
 					chat = {
@@ -295,7 +306,7 @@ return {
 						},
 					},
 					diff = {
-						provider = "vertical",
+						provider = "native",
 					},
 				},
 				opts = {
@@ -313,7 +324,7 @@ return {
 
 			-- Specific Chats (Lua API to ensure correct adapter)
 			vim.keymap.set("n", "<leader>aic", function()
-				require("codecompanion").chat({ params = { adapter = "zai" } })
+				require("codecompanion").chat({ params = { adapter = "litellm" } })
 			end, { silent = true, desc = "AI Chat (Claude)" })
 			vim.keymap.set("n", "<leader>aig", function()
 				require("codecompanion").chat({ params = { adapter = "gemini" } })
@@ -327,7 +338,7 @@ return {
 
 			-- Visual mode Chat Add
 			vim.keymap.set("v", "<leader>aic", function()
-				require("codecompanion").chat({ params = { adapter = "zai" } })
+				require("codecompanion").chat({ params = { adapter = "litellm" } })
 			end, { silent = true, desc = "AI Chat Add (Claude)" })
 			vim.keymap.set("v", "<leader>aig", function()
 				require("codecompanion").chat({ params = { adapter = "gemini" } })
@@ -476,25 +487,25 @@ return {
 	{
 		"will133/vim-dirdiff",
 	},
-    -- markdown
-    {
-        'MeanderingProgrammer/render-markdown.nvim',
-        dependencies = { 'nvim-treesitter/nvim-treesitter', 'nvim-tree/nvim-web-devicons' },
-        ---@module 'render-markdown'
-        ---@type render.md.UserConfig
-        opts = {},
-    },
-    {
-        'dhruvasagar/vim-table-mode',
-        ft = { "markdown" },
-        init = function()
-            vim.g.table_mode_corner = "|"
-            vim.g.table_mode_header_fillchar = "-"
-        end,
-        config = function()
-            vim.cmd("TableModeEnable")
-        end,
-    },
+	-- markdown
+	{
+		"MeanderingProgrammer/render-markdown.nvim",
+		dependencies = { "nvim-treesitter/nvim-treesitter", "nvim-tree/nvim-web-devicons" },
+		---@module 'render-markdown'
+		---@type render.md.UserConfig
+		opts = {},
+	},
+	{
+		"dhruvasagar/vim-table-mode",
+		ft = { "markdown" },
+		init = function()
+			vim.g.table_mode_corner = "|"
+			vim.g.table_mode_header_fillchar = "-"
+		end,
+		config = function()
+			vim.cmd("TableModeEnable")
+		end,
+	},
 	-- markdown preview
 	{
 		"iamcco/markdown-preview.nvim",
