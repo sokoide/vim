@@ -18,6 +18,10 @@ vim.lsp.config("asm_lsp", {
 		["textDocument/publishDiagnostics"] = function() end,
 	},
 	on_attach = function(client, bufnr)
+		-- 保存時のバッファ書き換えにVimが過剰反応するのを防ぐ
+		vim.opt_local.cinkeys:remove("0#")
+		vim.opt_local.indentkeys:remove("0#")
+
 		-- アセンブリファイル保存時の自動処理
 		vim.api.nvim_create_autocmd("BufWritePre", {
 			buffer = bufnr,
@@ -32,20 +36,34 @@ vim.lsp.config("asm_lsp", {
 					-- Webコピペ等で混入する特殊な空白(ノーブレークスペース)を通常のスペースに変換
 					local clean_line = line:gsub("\xc2\xa0", " ")
 
-					-- 「|」を境にコードとコメントに分離
-					local code, comment = clean_line:match("^([^|]-)%s*|%s*(.*)$")
-					if code then
-						code = code:gsub("%s+$", "") -- コード末尾の余分な空白だけをトリミング（行頭は維持！）
+					-- ★ 改良：行頭のインデント、コメント記号、中身を分解して取得
+					local indent, symbol, content = clean_line:match("^(%s*)([#|])%s*(.*)$")
 
-						-- タブ文字 (\t) の幅も考慮して、画面上の正確な表示幅を計算
-						local width = vim.fn.strdisplaywidth(code)
-						if width > max_width then
-							max_width = width
+					if indent then
+						-- 独立コメント行の場合：後ろの余分なスペースを削り、綺麗に整形する
+						content = content:gsub("%s+$", "") -- 末尾の空白をトリミング
+						local new_line = indent .. symbol
+						if content ~= "" then
+							new_line = new_line .. " " .. content -- 記号の後ろはスペース1個だけに固定
 						end
-						table.insert(parsed, { idx = i, code = code, comment = comment })
+						-- 整形後のラインを上書き対象（rewrite）として登録
+						table.insert(parsed, { idx = i, rewrite = new_line })
 					else
-						-- 「|」がない行（loop: や .text など）はそのまま無傷でキープ
-						table.insert(parsed, { idx = i, orig = line })
+						-- 「|」を境にコードとコメントに分離（通常のコード＋右側コメントの行）
+						local code, comment = clean_line:match("^([^|]-)%s*|%s*(.*)$")
+						if code then
+							code = code:gsub("%s+$", "") -- コード末尾の余分な空白だけをトリミング
+
+							-- タブ文字 (\t) の幅も考慮して、画面上の正確な表示幅を計算
+							local width = vim.fn.strdisplaywidth(code)
+							if width > max_width then
+								max_width = width
+							end
+							table.insert(parsed, { idx = i, code = code, comment = comment })
+						else
+							-- 「|」がない行（loop: や .text など）はそのまま無傷でキープ
+							table.insert(parsed, { idx = i, orig = line })
+						end
 					end
 				end
 
@@ -55,10 +73,14 @@ vim.lsp.config("asm_lsp", {
 				-- 4. 2巡目: 計算した位置に合わせてスペースを綺麗に補完して書き換える
 				for _, item in ipairs(parsed) do
 					if item.code then
+						-- 通常のコード＋右側コメント行の整列
 						local current_width = vim.fn.strdisplaywidth(item.code)
 						local padding = string.rep(" ", target_col - current_width)
 						local new_line = item.code .. padding .. "| " .. item.comment
 						vim.api.nvim_buf_set_lines(bufnr, item.idx - 1, item.idx, false, { new_line })
+					elseif item.rewrite then
+						-- ★ 追加：独立コメント行の余分なスペースを削った状態に書き換える
+						vim.api.nvim_buf_set_lines(bufnr, item.idx - 1, item.idx, false, { item.rewrite })
 					end
 				end
 			end,
