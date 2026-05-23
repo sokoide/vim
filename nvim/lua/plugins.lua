@@ -289,6 +289,18 @@ return {
 										default = "sonnet",
 									},
 								},
+								temperature = {
+									enabled = false, -- 最新バージョン(v18以降)向け
+									condition = function()
+										return false
+									end, -- 以前のバージョン向け
+								},
+								top_p = {
+									enabled = false,
+									condition = function()
+										return false
+									end,
+								},
 							})
 						end,
 					},
