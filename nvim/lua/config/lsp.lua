@@ -7,6 +7,66 @@ local function on_attach(client, bufnr)
 	client.server_capabilities.documentRangeFormattingProvider = false
 end
 
+------------------------------------------------------
+-- Assembly (asm-lsp)
+-----------------------------------------------------
+vim.lsp.config("asm_lsp", {
+	capabilities = capabilities,
+	filetypes = { "asm", "s", "S", "nasm", "gnuasm" },
+	handlers = {
+		-- 大量のエラー(expected newline)を非表示にする
+		["textDocument/publishDiagnostics"] = function() end,
+	},
+	on_attach = function(client, bufnr)
+		-- アセンブリファイル保存時の自動処理
+		vim.api.nvim_create_autocmd("BufWritePre", {
+			buffer = bufnr,
+			callback = function()
+				-- 1. 現在のバッファの全行を取得
+				local lines = vim.api.nvim_buf_get_lines(bufnr, 0, -1, false)
+				local max_width = 0
+				local parsed = {}
+
+				-- 2. 1巡目: 特殊空白を掃除しつつ、コード部分の「画面上の本当の幅」を計算
+				for i, line in ipairs(lines) do
+					-- Webコピペ等で混入する特殊な空白(ノーブレークスペース)を通常のスペースに変換
+					local clean_line = line:gsub("\xc2\xa0", " ")
+
+					-- 「|」を境にコードとコメントに分離
+					local code, comment = clean_line:match("^([^|]-)%s*|%s*(.*)$")
+					if code then
+						code = code:gsub("%s+$", "") -- コード末尾の余分な空白だけをトリミング（行頭は維持！）
+
+						-- タブ文字 (\t) の幅も考慮して、画面上の正確な表示幅を計算
+						local width = vim.fn.strdisplaywidth(code)
+						if width > max_width then
+							max_width = width
+						end
+						table.insert(parsed, { idx = i, code = code, comment = comment })
+					else
+						-- 「|」がない行（loop: や .text など）はそのまま無傷でキープ
+						table.insert(parsed, { idx = i, orig = line })
+					end
+				end
+
+				-- 3. 揃える基準列を決定（最長コードの幅 + 2スペース、最低でも40列目）
+				local target_col = math.max(40, max_width + 2)
+
+				-- 4. 2巡目: 計算した位置に合わせてスペースを綺麗に補完して書き換える
+				for _, item in ipairs(parsed) do
+					if item.code then
+						local current_width = vim.fn.strdisplaywidth(item.code)
+						local padding = string.rep(" ", target_col - current_width)
+						local new_line = item.code .. padding .. "| " .. item.comment
+						vim.api.nvim_buf_set_lines(bufnr, item.idx - 1, item.idx, false, { new_line })
+					end
+				end
+			end,
+		})
+	end,
+})
+vim.lsp.enable("asm_lsp")
+
 -----------------------------------------------------
 -- Go (gopls)
 -----------------------------------------------------

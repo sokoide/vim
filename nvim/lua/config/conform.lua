@@ -2,6 +2,7 @@ local conform = require("conform")
 
 conform.setup({
 	formatters_by_ft = {
+		asm = { "asmfmt" },
 		c = { "clang_format" },
 		cpp = { "clang_format" },
 		cs = { "csharpier" }, -- C#

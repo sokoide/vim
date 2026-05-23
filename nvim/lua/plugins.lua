@@ -75,10 +75,14 @@ return {
 			require("config.treesitter")
 		end,
 	},
-
+	-- tabular
+	{ "godlygeek/tabular" },
 	-- LSP
 	{
 		"neovim/nvim-lspconfig",
+		dependencies = {
+			"godlygeek/tabular",
+		},
 		config = function()
 			require("config.lsp")
 		end,
@@ -108,17 +112,40 @@ return {
 		end,
 	},
 
-	-- golangci-lint=langserver
+	-- mason
+	-- ==========================================
+	-- 1. Mason 本体
+	-- ==========================================
 	{
 		"williamboman/mason.nvim",
 		config = function()
 			require("mason").setup()
 		end,
 	},
+
+	-- ==========================================
+	-- 2. 自動インストール管理 (こちらに一本化します)
+	-- ==========================================
 	{
-		"williamboman/mason-lspconfig.nvim",
+		"WhoIsSethDaniel/mason-tool-installer.nvim",
+		dependencies = { "williamboman/mason.nvim" },
 		config = function()
-			require("mason-lspconfig").setup()
+			require("mason-tool-installer").setup({
+				-- Masonレジストリ上の正確な名前（すべてハイフン区切り）で指定します
+				ensure_installed = {
+					"asm-lsp",
+					"asmfmt",
+					"clangd",
+					"gopls",
+					"golangci-lint", -- タイポ修正（golangci_lint_ls ではなくツール名）
+					"rust-analyzer", -- ハイフン区切りに修正
+					"typescript-language-server", -- ts_ls の Mason パッケージ名
+					"csharp-language-server", -- タイポ修正 ＆ Mason パッケージ名
+					"jdtls",
+				},
+				auto_update = true,
+				run_on_start = true,
+			})
 		end,
 	},
 
