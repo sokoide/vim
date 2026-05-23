@@ -500,7 +500,7 @@ return {
 		"iamcco/markdown-preview.nvim",
 		cmd = { "MarkdownPreviewToggle", "MarkdownPreview", "MarkdownPreviewStop" },
 		ft = { "markdown" },
-		build = "cd app && (pnpm install || npm install) && (pnpm add msgpack-lite || npm install msgpack-lite)",
+		build = "cd app && (pnpm install || npm install) && (pnpm add msgpack-lite || npm install msgpack-lite) && git checkout .",
 		init = function()
 			vim.g.mkdp_filetypes = { "markdown" }
 		end,

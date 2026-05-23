@@ -128,6 +128,15 @@ vim.api.nvim_create_autocmd("FileType", {
 		vim.keymap.set("n", "q", "<cmd>close<CR>", { buffer = true, silent = true })
 	end,
 })
+
+-- comment
+vim.api.nvim_create_autocmd("FileType", {
+	pattern = "asm",
+	callback = function()
+        vim.bo.commentstring = "|%s"
+	end,
+})
+
 --- initial launcy by nvim -d
 vim.api.nvim_create_autocmd("VimEnter", {
 	callback = function()
