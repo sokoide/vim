@@ -3,12 +3,11 @@ local conform = require("conform")
 conform.setup({
 	formatters_by_ft = {
 		asm = { "asmfmt" },
-		c = { "clang_format" },
-		cpp = { "clang_format" },
-		-- cs = { "csharpier" },
+		c = { "clang-format" },
+		cpp = { "clang-format" },
 		cs = { "prettier" },
 		go = { "goimports", "gofmt" },
-		h = { "clang_format" },
+		h = { "clang-format" },
 		java = { "google-java-format" },
 		javascript = { "prettier" },
 		javascriptreact = { "prettier" },
@@ -27,7 +26,7 @@ conform.setup({
 
 		return {
 			timeout_ms = 2000,
-			lsp_fallback = true, -- sh以外はLSPに頼る
+			lsp_fallback = true,
 		}
 	end,
 })
