@@ -124,25 +124,32 @@ return {
 	},
 
 	-- ==========================================
-	-- 2. 自動インストール管理 (こちらに一本化します)
+	-- 2. 自動インストール管理
 	-- ==========================================
 	{
 		"WhoIsSethDaniel/mason-tool-installer.nvim",
 		dependencies = { "williamboman/mason.nvim" },
 		config = function()
+			-- local is_termux = (vim.fn.has("android") == 1)
+			local is_termux = 1
+			local tools = {
+				"asm-lsp",
+				"asmfmt",
+				"gopls",
+				"golangci-lint",
+				"rust-analyzer",
+				"typescript-language-server",
+				"jdtls",
+			}
+
+			if not is_termux then
+				table.insert(tools, "clangd")
+				table.insert(tools, "csharp-language-server")
+				table.insert(tools, "stylua")
+			end
+
 			require("mason-tool-installer").setup({
-				-- Masonレジストリ上の正確な名前（すべてハイフン区切り）で指定します
-				ensure_installed = {
-					"asm-lsp",
-					"asmfmt",
-					"clangd",
-					"gopls",
-					"golangci-lint", -- タイポ修正（golangci_lint_ls ではなくツール名）
-					"rust-analyzer", -- ハイフン区切りに修正
-					"typescript-language-server", -- ts_ls の Mason パッケージ名
-					"csharp-language-server", -- タイポ修正 ＆ Mason パッケージ名
-					"jdtls",
-				},
+				ensure_installed = tools,
 				auto_update = true,
 				run_on_start = true,
 			})

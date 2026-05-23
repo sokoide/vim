@@ -5,10 +5,11 @@ conform.setup({
 		asm = { "asmfmt" },
 		c = { "clang_format" },
 		cpp = { "clang_format" },
-		cs = { "csharpier" }, -- C#
+		-- cs = { "csharpier" },
+		cs = { "prettier" },
 		go = { "goimports", "gofmt" },
 		h = { "clang_format" },
-		java = { "google-java-format" }, -- Java
+		java = { "google-java-format" },
 		javascript = { "prettier" },
 		javascriptreact = { "prettier" },
 		json = { "prettierd", "prettier", "jq", stop_after_first = true },
