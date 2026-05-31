@@ -481,7 +481,7 @@ return {
 
 			cmp.setup({
 				completion = {
-					autocomplete = { require("cmp.types").cmp.TriggerEvent.TextChanged },
+					autocomplete = false,
 				},
 				mapping = cmp.mapping.preset.insert({
 					["<C-y>"] = cmp.mapping.complete(),
