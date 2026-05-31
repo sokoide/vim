@@ -1,26 +1,26 @@
 -- buffer
-vim.keymap.set("n", "<C-p>", "<Cmd>bprevious<CR>", { silent = true })
-vim.keymap.set("n", "<C-n>", "<Cmd>bnext<CR>", { silent = true })
-vim.keymap.set("n", "<leader>q", "<Cmd>copen<CR><Cmd>cfirst<CR>")
-vim.keymap.set("n", "<leader>ma", "<Cmd>make!<CR><Cmd>copen<CR><Cmd>cfirst<CR>", { silent = true })
-vim.keymap.set("n", "<leader>]", "<Cmd>qa<CR>")
+vim.keymap.set("n", "<C-p>", "<Cmd>bprevious<CR>", { silent = true, desc = "Previous buffer" })
+vim.keymap.set("n", "<C-n>", "<Cmd>bnext<CR>", { silent = true, desc = "Next buffer" })
+vim.keymap.set("n", "<leader>q", "<Cmd>copen<CR><Cmd>cfirst<CR>", { silent = true, desc = "Open quickfix" })
+vim.keymap.set("n", "<leader>ma", "<Cmd>make!<CR><Cmd>copen<CR><Cmd>cfirst<CR>", { silent = true, desc = "Run make" })
+vim.keymap.set("n", "<leader>]", "<Cmd>qa<CR>", { silent = true, desc = "Quit all" })
 
 -- markdown
-vim.keymap.set("n", "<leader>md", "<Cmd>RenderMarkdown toggle<CR>")
+vim.keymap.set("n", "<leader>md", "<Cmd>RenderMarkdown toggle<CR>", { silent = true, desc = "Toggle Markdown render" })
 
 -- neo-tree
-vim.keymap.set("n", "<C-e>e", "<Cmd>Neotree toggle<CR>", { silent = true })
+vim.keymap.set("n", "<C-e>e", "<Cmd>Neotree toggle<CR>", { silent = true, desc = "Toggle Neo-tree" })
 
 -- LSP Saga
-vim.keymap.set("n", "gr", "<cmd>Lspsaga finder<CR>", opts)
-vim.keymap.set("n", "gp", "<cmd>Lspsaga peek_definition<CR>", opts)
-vim.keymap.set("n", "<leader>rn", "<cmd>Lspsaga rename<CR>", opts)
-vim.keymap.set("n", "<leader>ca", "<cmd>Lspsaga code_action<CR>", opts)
+vim.keymap.set("n", "gr", "<cmd>Lspsaga finder<CR>", { noremap = true, silent = true, desc = "LSP references" })
+vim.keymap.set("n", "gp", "<cmd>Lspsaga peek_definition<CR>", { noremap = true, silent = true, desc = "LSP peek definition" })
+vim.keymap.set("n", "<leader>rn", "<cmd>Lspsaga rename<CR>", { noremap = true, silent = true, desc = "LSP rename" })
+vim.keymap.set("n", "<leader>ca", "<cmd>Lspsaga code_action<CR>", { noremap = true, silent = true, desc = "LSP code action" })
 
 -- Diagnostics
-vim.keymap.set("n", "gl", vim.diagnostic.open_float)
-vim.keymap.set("n", "[d", vim.diagnostic.goto_prev)
-vim.keymap.set("n", "]d", vim.diagnostic.goto_next)
+vim.keymap.set("n", "gl", vim.diagnostic.open_float, { desc = "Show line diagnostics" })
+vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, { desc = "Previous diagnostic" })
+vim.keymap.set("n", "]d", vim.diagnostic.goto_next, { desc = "Next diagnostic" })
 
 -- Telescope
 local telescope = require("telescope.builtin")
@@ -28,7 +28,7 @@ local telescope = require("telescope.builtin")
 -- find files
 vim.keymap.set("n", "<leader>ff", function()
 	telescope.find_files({ default_text = vim.fn.expand("<cword>") })
-end, { desc = "Finde files with <cword>" })
+end, { desc = "Find files with <cword>" })
 -- live grep
 vim.keymap.set("n", "<leader>fg", function()
 	telescope.live_grep({ default_text = vim.fn.expand("<cword>") })
@@ -38,13 +38,13 @@ vim.keymap.set("n", "<leader>fb", function()
 	telescope.buffers({ default_text = vim.fn.expand("<cword>") })
 end, { desc = "Find buffers with <cword>" })
 -- LSP symbols
-vim.keymap.set("n", "<leader>fs", telescope.lsp_document_symbols)
+vim.keymap.set("n", "<leader>fs", telescope.lsp_document_symbols, { desc = "Document symbols" })
 vim.keymap.set("n", "<leader>fS", function()
 	telescope.lsp_workspace_symbols({ query = vim.fn.expand("<cword>") })
 end, { desc = "Find workspace symbol <cword>" })
 
 -- references
-vim.keymap.set("n", "<leader>fr", telescope.lsp_references, opts)
+vim.keymap.set("n", "<leader>fr", telescope.lsp_references, { noremap = true, silent = true, desc = "LSP references" })
 
 -- Codex Terminal
 vim.keymap.set("n", "<leader>ct", function()
@@ -60,10 +60,10 @@ vim.keymap.set("n", "<leader>ac", function()
 end, { desc = "Toggle Claude CLI" })
 
 -- Window
-vim.keymap.set("n", "<C-h>", "<C-w>h")
-vim.keymap.set("n", "<C-j>", "<C-w>j")
-vim.keymap.set("n", "<C-k>", "<C-w>k")
-vim.keymap.set("n", "<C-l>", "<C-w>l")
+vim.keymap.set("n", "<C-h>", "<C-w>h", { desc = "Window left" })
+vim.keymap.set("n", "<C-j>", "<C-w>j", { desc = "Window down" })
+vim.keymap.set("n", "<C-k>", "<C-w>k", { desc = "Window up" })
+vim.keymap.set("n", "<C-l>", "<C-w>l", { desc = "Window right" })
 
 -- Resize window width
 vim.keymap.set("n", "<leader>+", "<C-w>5>", { desc = "Increase window width by 5" })
@@ -81,7 +81,7 @@ vim.keymap.set("n", "<leader>h", function()
 end, { desc = "Show line diagnostics" })
 
 -- Aerial
-vim.keymap.set("n", "<leader>ao", "<cmd>AerialToggle!<CR>", { desc = "Toggle Aerial outline" })
+vim.keymap.set("n", "<leader>ao", "<cmd>AerialToggle!<CR>", { silent = true, desc = "Toggle Aerial outline" })
 -- nvim-dap
 local dap = require("dap")
 local dapui = require("dapui")
@@ -92,45 +92,45 @@ vim.fn.sign_define("DapStopped", { text = "▶", texthl = "DiagnosticSignInfo", 
 
 vim.keymap.set("n", "<F5>", function()
 	dap.continue()
-end)
+end, { desc = "DAP continue" })
 vim.keymap.set("n", "<A-r>", function()
 	dap.continue()
-end)
+end, { desc = "DAP continue" })
 
 vim.keymap.set("n", "<F9>", function()
 	dap.toggle_breakpoint()
-end)
+end, { desc = "DAP toggle breakpoint" })
 vim.keymap.set("n", "<A-b>", function()
 	dap.toggle_breakpoint()
-end)
+end, { desc = "DAP toggle breakpoint" })
 
 vim.keymap.set("n", "<F10>", function()
 	dap.step_over()
-end)
+end, { desc = "DAP step over" })
 vim.keymap.set("n", "<A-;>", function()
 	dap.step_over()
-end)
+end, { desc = "DAP step over" })
 
 vim.keymap.set("n", "<F11>", function()
 	dap.step_into()
-end)
+end, { desc = "DAP step into" })
 vim.keymap.set("n", "<A-'>", function()
 	dap.step_into()
-end)
+end, { desc = "DAP step into" })
 
 vim.keymap.set("n", "<F12>", function()
 	dap.step_out()
-end)
+end, { desc = "DAP step out" })
 vim.keymap.set("n", "<A-/>", function()
 	dap.step_out()
-end)
+end, { desc = "DAP step out" })
 
 vim.keymap.set("n", "<leader>dr", function()
 	dap.repl.open()
-end)
+end, { desc = "DAP REPL open" })
 vim.keymap.set("n", "<leader>dt", function()
 	dap.terminate()
-end)
+end, { desc = "DAP terminate" })
 -- DAP UI maximize/restore toggle
 local dapui_maximized = false
 
@@ -159,18 +159,6 @@ vim.keymap.set("n", "<leader>du", function()
 		dapui_maximized = true
 	end
 end, { desc = "Maximize/Restore DAP UI pane" })
-dap.listeners.after.event_initialized["dapui_config"] = function()
-	dapui.open()
-end
-
-dap.listeners.before.event_terminated["dapui_config"] = function()
-	dapui.close()
-end
-
-dap.listeners.before.event_exited["dapui_config"] = function()
-	dapui.close()
-end
-
 -- =========================================
 -- Go Test Runner (QuickFix)
 -- =========================================
@@ -230,8 +218,8 @@ vim.keymap.set("n", "<leader>ta", function()
 end, { desc = "Run Go Test for all packages" })
 
 -- overseer
-vim.keymap.set("n", "<leader>r", "<Cmd>OverseerRun make_run<CR>")
-vim.keymap.set("n", "<leader>R", "<Cmd>OverseerToggle<CR>")
+vim.keymap.set("n", "<leader>r", "<Cmd>OverseerRun make_run<CR>", { silent = true, desc = "Overseer run" })
+vim.keymap.set("n", "<leader>R", "<Cmd>OverseerToggle<CR>", { silent = true, desc = "Overseer toggle" })
 vim.keymap.set("n", "<leader>k", function()
 	local overseer = require("overseer")
 	local tasks = overseer.list_tasks({ running = true })
@@ -244,8 +232,8 @@ vim.keymap.set("n", "<leader>k", function()
 end, { desc = "Kill running Overseer task" })
 
 -- vim-fugitive
-vim.keymap.set("n", "<leader>gd", ":Gvdiffsplit<CR>", { desc = "Git Diff (Index)" })
-vim.keymap.set("n", "<leader>gh", ":Gvdiffsplit HEAD<CR>", { desc = "Git Diff (HEAD)" })
+vim.keymap.set("n", "<leader>gd", ":Gvdiffsplit<CR>", { silent = true, desc = "Git Diff (Index)" })
+vim.keymap.set("n", "<leader>gh", ":Gvdiffsplit HEAD<CR>", { silent = true, desc = "Git Diff (HEAD)" })
 
 -- gx
 vim.keymap.set({ "n", "v" }, "gx", function()

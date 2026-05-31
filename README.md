@@ -22,7 +22,7 @@
 | **Git** | `vim-fugitive` | Gitコマンド操作・Diff確認。 |
 | **タスク実行** | `overseer.nvim` | タスクランナー。 |
 | **補完UI** | `nvim-cmp` | 補完メニューの表示管理。 |
-| **Markdown** | `markdown-preview.nvim` | ブラウザでのリアルタイムプレビュー。 |
+| **Markdown** | `render-markdown.nvim`, `markdown-preview.nvim` | 編集画面・ブラウザでのプレビュー。 |
 
 ---
 
@@ -38,16 +38,30 @@
 *   **バッファ切り替え**: `<C-p>` (前), `<C-n>` (次)
 *   **Quickfixを開く**: `<leader>q`
 *   **Neovim終了**: `<leader>]`
+*   **カーソル下のURLを開く**: `gx`
 
 ### LSP / 診断 (Diagnostics)
 行番号の横に表示される `W` (Warning) や `E` (Error) の詳細を確認する操作です。
 
-*   **詳細をフロート表示**: `gl` (カーソル位置), `<leader>h` (行全体)
+**定義移動:**
+*   **定義へジャンプ**: `gd`
+*   **宣言へジャンプ**: `gD`
+*   **実装へジャンプ**: `gi`
+*   **型定義へジャンプ**: `gy`
+*   **ホバー表示**: `K`
+
+**Lspsaga (リッチUI):**
+*   **参照/定義ファインダー**: `gr`
+*   **定義を覗き見**: `gp`
+*   **リネーム**: `<leader>rn`
+*   **コードアクション**: `<leader>ca`
+
+**診断ナビゲーション:**
+*   **診断をフロート表示**: `gl` (カーソル位置), `<leader>h` (行全体)
 *   **次/前の診断へジャンプ**: `]d`, `[d`
 *   **エラー一覧をQuickfixで表示**: `<leader>e`
 *   **警告一覧をQuickfixで表示**: `<leader>w`
-*   **LSP定義確認/参照**: `gp` (定義覗き見), `gr` (参照/定義ファインダー)
-*   **リネーム / コードアクション**: `<leader>rn`, `<leader>ca`
+*   **LSP参照一覧**: `gR` または `<leader>fr`
 
 ### 検索 (Telescope)
 *   **ファイル検索**: `<leader>ff` (カーソル下のワードで検索)
@@ -55,7 +69,6 @@
 *   **バッファ検索**: `<leader>fb`
 *   **ドキュメント内シンボル**: `<leader>fs`
 *   **ワークスペース内シンボル**: `<leader>fS`
-*   **LSP参照一覧**: `<leader>fr`
 
 ### AI アシスト (CodeCompanion)
 *   **AI アクションメニュー**: `<leader>aa`
@@ -87,17 +100,17 @@
 *   **テスト (関数単位)**: `<leader>tf` (カーソル下の Test 関数を実行)
 *   **テスト (ファイル単位)**: `<leader>tt`
 *   **テスト (全パッケージ)**: `<leader>ta`
+*   **make実行**: `<leader>ma` (Quickfixで結果表示)
 
 ### タスク実行 (Overseer)
-*   **make実行**: `<leader>m` (Quickfixで結果表示)
 *   **タスク実行 (選択)**: `<leader>r`
 *   **タスク一覧表示**: `<leader>R`
 *   **実行中タスクの停止**: `<leader>k`
 
 ### デバッグ (DAP)
-*   **実行/継続**: `<F5>`
-*   **ブレークポイント切り替え**: `<F9>`
-*   **ステップオーバー/イン/アウト**: `<F10>`, `<F11>`, `<F12>`
+*   **実行/継続**: `<F5>` / `<A-r>`
+*   **ブレークポイント切り替え**: `<F9>` / `<A-b>`
+*   **ステップオーバー / イン / アウト**: `<F10>` / `<A-;>`, `<F11>` / `<A-'>`, `<F12>` / `<A-/>`
 *   **REPL表示**: `<leader>dr`
 *   **ペイン最大化/復元**: `<leader>du`
 *   **デバッグ停止**: `<leader>dt`
@@ -105,6 +118,71 @@
 ### Git 操作 (Fugitive)
 *   **Git Diff (Index)**: `<leader>gd` (`:Gvdiffsplit` - 垂直分割)
 *   **Git Diff (HEAD)**: `<leader>gh` (`:Gvdiffsplit HEAD` - 垂直分割)
+
+### Markdown
+*   **RenderMarkdown 切り替え**: `<leader>md`
+*   **ブラウザプレビュー**: `:MarkdownPreviewToggle`
+
+---
+
+## キーマップの仕組み
+
+### `<leader>` キー
+
+本設定では `mapleader` を変更していないため、デフォルトの `\` が leader です。例: `<leader>ff` → `\ff`
+
+### `silent = true` について
+
+キーマップの opts に付けている `silent = true` は、キー押下時にコマンドラインへ実行コマンドをエコーしないようにするオプションです。
+
+```
+-- silent なし: 画面下に :Gvdiffsplit<CR> が一瞬表示される
+vim.keymap.set("n", "<leader>gd", ":Gvdiffsplit<CR>")
+
+-- silent あり: 何も表示されず、結果だけが即座に現れる
+vim.keymap.set("n", "<leader>gd", ":Gvdiffsplit<CR>", { silent = true })
+```
+
+`function() ... end` を割り当てているキーマップ（Telescope、DAP、Go test など）は、そもそもコマンドラインにエコーされないため `silent` の有無で違いはありません。
+
+### `noremap = true` について
+
+マッピングの再帰展開を防ぎます。Lspsaga 系（`gr`, `gp`, `<leader>rn`, `<leader>ca`）と `<leader>fr` に付けています。これにより、万が一同じキーが別のマッピング先に再定義されていても、意図しない連鎖を起こしません。
+
+### コマンド文字列 vs 関数コールバック
+
+キーマップの割り当てには2つのパターンがあります:
+
+```lua
+-- 1. コマンド文字列: Vimコマンドをそのまま実行
+vim.keymap.set("n", "<leader>ma", "<Cmd>make!<CR>", { silent = true })
+
+-- 2. 関数コールバック: Luaでロジックを書ける
+vim.keymap.set("n", "<leader>tf", function()
+    go_test_runner("function")
+end)
+```
+
+DAP のステップ実行や Go test runner のように、条件分岐やエラーハンドリングが必要なものは関数コールバックを使っています。
+
+### `<cword>` / `<cfile>` 展開
+
+Telescope 系のマップや `gx` で使われているパターンです:
+
+- `vim.fn.expand("<cword>")` — カーソル下の単語を取得
+- `vim.fn.expand("<cfile>")` — カーソル下のファイル名/URLを取得
+
+`<leader>ff` を押すと、カーソル下の単語を検索語として Telescope が開きます。
+
+### DAP UI のライフサイクル
+
+デバッグ開始・終了に連動して DAP UI が自動で開閉します。この仕組みは `plugins.lua` 内の listener で制御しています:
+
+```lua
+dap.listeners.after.event_initialized["dapui_config"] = function() dapui.open() end
+dap.listeners.before.event_terminated["dapui_config"] = function() dapui.close() end
+dap.listeners.before.event_exited["dapui_config"]     = function() dapui.close() end
+```
 
 ---
 

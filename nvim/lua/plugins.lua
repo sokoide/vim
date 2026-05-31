@@ -130,8 +130,7 @@ return {
 		"WhoIsSethDaniel/mason-tool-installer.nvim",
 		dependencies = { "williamboman/mason.nvim" },
 		config = function()
-			-- local is_termux = (vim.fn.has("android") == 1)
-			local is_termux = 1
+			local is_termux = (vim.fn.has("android") == 1)
 			local tools = {
 				"asm-lsp",
 				"asmfmt",
@@ -222,7 +221,9 @@ return {
 			dap.listeners.before.event_terminated["dapui_config"] = function()
 				dapui.close()
 			end
-			require("config.dap")
+			dap.listeners.before.event_exited["dapui_config"] = function()
+				dapui.close()
+			end
 		end,
 	},
 	{
