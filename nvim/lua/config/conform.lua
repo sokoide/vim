@@ -42,3 +42,19 @@ conform.formatters.clang_format = {
 		return { "--assume-filename=" .. filename, "--style=file" }
 	end,
 }
+
+local prettier_config = vim.fn.expand("~") .. "/.prettierrc.json"
+
+conform.formatters.prettier = {
+	command = "prettier",
+	prepend_args = function(ctx)
+		return { "--config", prettier_config }
+	end,
+}
+
+conform.formatters.prettierd = {
+	command = "prettierd",
+	env = {
+		PRETTIERD_DEFAULT_CONFIG = prettier_config,
+	},
+}

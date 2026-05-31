@@ -13,3 +13,4 @@ else
 	mkdir -p $(HOME)/.config
 	rsync -av --delete nvim/ $(HOME)/.config/nvim/
 endif
+	cp .prettierrc.json $(HOME)/
