@@ -140,6 +140,7 @@ return {
 				"rust-analyzer",
 				"typescript-language-server",
 				"jdtls",
+				"prettierd",
 			}
 
 			if not is_termux then

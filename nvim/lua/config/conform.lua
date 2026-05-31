@@ -12,6 +12,7 @@ conform.setup({
 		javascript = { "prettier" },
 		javascriptreact = { "prettier" },
 		json = { "prettierd", "prettier", "jq", stop_after_first = true },
+		jsonc = { "prettierd", "prettier", stop_after_first = true },
 		lua = { "stylua" },
 		rust = { "rustfmt" },
 		typescript = { "prettier" },

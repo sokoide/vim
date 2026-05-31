@@ -50,6 +50,20 @@ vim.opt.shiftwidth = 4
 vim.opt.smartindent = true
 vim.opt.clipboard = "unnamedplus"
 vim.opt.wrap = true
+vim.opt.clipboard = "unnamedplus"
+
+-- OSC 52 を使ってクリップボードを設定
+vim.g.clipboard = {
+	name = "OSC 52",
+	copy = {
+		["+"] = require("vim.ui.clipboard.osc52").copy("+"),
+		["*"] = require("vim.ui.clipboard.osc52").copy("*"),
+	},
+	paste = {
+		["+"] = require("vim.ui.clipboard.osc52").paste("+"),
+		["*"] = require("vim.ui.clipboard.osc52").paste("*"),
+	},
+}
 
 -- Auto-reload files changed externally
 local function watch_file(bufnr)
