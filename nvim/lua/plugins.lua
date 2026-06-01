@@ -130,9 +130,8 @@ return {
 		"WhoIsSethDaniel/mason-tool-installer.nvim",
 		dependencies = { "williamboman/mason.nvim" },
 		config = function()
-			local is_termux = (vim.fn.has("android") == 1)
+			local is_termux = (vim.fn.has("android") == 1) or (os.getenv("ANDROID_ROOT") ~= nil)
 			local tools = {
-				"asm-lsp",
 				"asmfmt",
 				"gopls",
 				"golangci-lint",
@@ -143,6 +142,7 @@ return {
 			}
 
 			if not is_termux then
+				table.insert(tools, "asm-lsp")
 				table.insert(tools, "clangd")
 				table.insert(tools, "csharp-language-server")
 				table.insert(tools, "stylua")
