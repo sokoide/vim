@@ -249,6 +249,3 @@ vim.api.nvim_create_autocmd("OptionSet", {
 		end
 	end,
 })
-
--- color scheme
--- vim.cmd("colorscheme tokyonight")

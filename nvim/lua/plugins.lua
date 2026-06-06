@@ -104,8 +104,11 @@ return {
 		priority = 1000,
 		config = function()
 			vim.g.sonokai_style = "maia"
+			vim.g.sonokai_transparent_background = 1
+
 			vim.cmd("colorscheme sonokai")
 			-- コメントのイタリックを無効化（テーマの色を維持）
+			--
 			local comment_hl = vim.api.nvim_get_hl(0, { name = "Comment" })
 			comment_hl.italic = false
 			vim.api.nvim_set_hl(0, "Comment", comment_hl)
@@ -564,7 +567,7 @@ return {
 						-- テーブル先頭行にカーソルを移動
 						-- 1回だけ呼ぶ（TableModeRealign はテーブル全体を処理する）
 						vim.fn.cursor(cur, 1)
-						vim.fn['tablemode#table#Realign']('.')
+						vim.fn["tablemode#table#Realign"](".")
 						-- 次のテーブルブロックへスキップ
 						while cur <= total and vim.fn.getline(cur):match("^%s*|") do
 							cur = cur + 1
