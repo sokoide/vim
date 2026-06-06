@@ -6,16 +6,31 @@ vim.keymap.set("n", "<leader>ma", "<Cmd>make!<CR><Cmd>copen<CR><Cmd>cfirst<CR>",
 vim.keymap.set("n", "<leader>]", "<Cmd>qa<CR>", { silent = true, desc = "Quit all" })
 
 -- markdown
-vim.keymap.set("n", "<leader>md", "<Cmd>RenderMarkdown toggle<CR>", { silent = true, desc = "Toggle Markdown render" })
+vim.keymap.set(
+	"n",
+	"<leader>md",
+	"<Cmd>RenderMarkdown toggle<CR><Cmd>MdTableAlignAll<CR>",
+	{ silent = true, desc = "Toggle Markdown render" }
+)
 
 -- neo-tree
 vim.keymap.set("n", "<C-e>e", "<Cmd>Neotree toggle<CR>", { silent = true, desc = "Toggle Neo-tree" })
 
 -- LSP Saga
 vim.keymap.set("n", "gr", "<cmd>Lspsaga finder<CR>", { noremap = true, silent = true, desc = "LSP references" })
-vim.keymap.set("n", "gp", "<cmd>Lspsaga peek_definition<CR>", { noremap = true, silent = true, desc = "LSP peek definition" })
+vim.keymap.set(
+	"n",
+	"gp",
+	"<cmd>Lspsaga peek_definition<CR>",
+	{ noremap = true, silent = true, desc = "LSP peek definition" }
+)
 vim.keymap.set("n", "<leader>rn", "<cmd>Lspsaga rename<CR>", { noremap = true, silent = true, desc = "LSP rename" })
-vim.keymap.set("n", "<leader>ca", "<cmd>Lspsaga code_action<CR>", { noremap = true, silent = true, desc = "LSP code action" })
+vim.keymap.set(
+	"n",
+	"<leader>ca",
+	"<cmd>Lspsaga code_action<CR>",
+	{ noremap = true, silent = true, desc = "LSP code action" }
+)
 
 -- Diagnostics
 vim.keymap.set("n", "gl", vim.diagnostic.open_float, { desc = "Show line diagnostics" })
