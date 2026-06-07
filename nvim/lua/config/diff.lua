@@ -19,13 +19,3 @@ vim.api.nvim_create_autocmd({ "BufWinEnter", "OptionSet" }, {
 		end
 	end,
 })
-
--- :diffthis 手動実行時
-vim.api.nvim_create_autocmd("OptionSet", {
-	pattern = "diff",
-	callback = function()
-		if vim.v.option_new == "true" or vim.v.option_new == 1 then
-			vim.wo.wrap = true
-		end
-	end,
-})

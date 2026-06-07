@@ -188,9 +188,31 @@ vim.lsp.enable("jdtls")
 -----------------------------------------------------
 -- Keymaps (全 LSP 共通)
 -----------------------------------------------------
-vim.keymap.set("n", "gd", vim.lsp.buf.definition, { noremap = true, silent = true, desc = "LSP definition" })
-vim.keymap.set("n", "gD", vim.lsp.buf.declaration, { noremap = true, silent = true, desc = "LSP declaration" })
-vim.keymap.set("n", "gi", vim.lsp.buf.implementation, { noremap = true, silent = true, desc = "LSP implementation" })
-vim.keymap.set("n", "gy", vim.lsp.buf.type_definition, { noremap = true, silent = true, desc = "LSP type definition" })
-vim.keymap.set("n", "gR", vim.lsp.buf.references, { noremap = true, silent = true, desc = "LSP references" })
-vim.keymap.set("n", "K", vim.lsp.buf.hover, { noremap = true, silent = true, desc = "LSP hover" })
+vim.keymap.set("n", "gd", vim.lsp.buf.definition, { silent = true, desc = "LSP definition" })
+vim.keymap.set("n", "gD", vim.lsp.buf.declaration, { silent = true, desc = "LSP declaration" })
+vim.keymap.set("n", "gi", vim.lsp.buf.implementation, { silent = true, desc = "LSP implementation" })
+vim.keymap.set("n", "gy", vim.lsp.buf.type_definition, { silent = true, desc = "LSP type definition" })
+vim.keymap.set("n", "gR", vim.lsp.buf.references, { silent = true, desc = "LSP references (native)" })
+vim.keymap.set("n", "K", vim.lsp.buf.hover, { silent = true, desc = "LSP hover" })
+
+-- LSP Saga
+vim.keymap.set("n", "gr", "<Cmd>Lspsaga finder<CR>", { silent = true, desc = "LSP references (Saga)" })
+vim.keymap.set("n", "gp", "<Cmd>Lspsaga peek_definition<CR>", { silent = true, desc = "LSP peek definition" })
+vim.keymap.set("n", "<leader>rn", "<Cmd>Lspsaga rename<CR>", { silent = true, desc = "LSP rename" })
+vim.keymap.set("n", "<leader>ca", "<Cmd>Lspsaga code_action<CR>", { silent = true, desc = "LSP code action" })
+
+-- Diagnostics
+vim.keymap.set("n", "gl", vim.diagnostic.open_float, { desc = "Show line diagnostics" })
+vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, { desc = "Previous diagnostic" })
+vim.keymap.set("n", "]d", vim.diagnostic.goto_next, { desc = "Next diagnostic" })
+
+-- Quickfix diagnostics
+vim.keymap.set("n", "<leader>w", function()
+	vim.diagnostic.setqflist({ severity = vim.diagnostic.severity.WARN })
+end, { desc = "Show warnings in quickfix" })
+vim.keymap.set("n", "<leader>e", function()
+	vim.diagnostic.setqflist({ severity = vim.diagnostic.severity.ERROR })
+end, { desc = "Show errors in quickfix" })
+vim.keymap.set("n", "<leader>h", function()
+	vim.diagnostic.open_float(0, { scope = "line" })
+end, { desc = "Show line diagnostics" })

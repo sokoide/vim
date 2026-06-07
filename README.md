@@ -120,7 +120,7 @@
 *   **Git Diff (HEAD)**: `<leader>gh` (`:Gvdiffsplit HEAD` - 垂直分割)
 
 ### Markdown
-*   **RenderMarkdown 切り替え**: `<leader>md`
+*   **RenderMarkdown 切り替え + テーブル整列**: `<leader>md`
 *   **ブラウザプレビュー**: `:MarkdownPreviewToggle`
 
 ---
@@ -147,7 +147,7 @@ vim.keymap.set("n", "<leader>gd", ":Gvdiffsplit<CR>", { silent = true })
 
 ### `noremap = true` について
 
-マッピングの再帰展開を防ぎます。Lspsaga 系（`gr`, `gp`, `<leader>rn`, `<leader>ca`）と `<leader>fr` に付けています。これにより、万が一同じキーが別のマッピング先に再定義されていても、意図しない連鎖を起こしません。
+`vim.keymap.set` はデフォルトで `noremap = true` として動作するため、本設定では明示的に指定していません。マッピングの再帰展開を防ぎ、意図しない連鎖を起こしません。
 
 ### コマンド文字列 vs 関数コールバック
 
@@ -190,4 +190,8 @@ dap.listeners.before.event_exited["dapui_config"]     = function() dapui.close()
 各プラグインの詳細設定や追加のキーマップについては、以下のファイルを確認してください。
 
 *   `nvim/lua/plugins.lua`: プラグインのインストール定義
-*   `nvim/lua/config/keymap.lua`: 全てのキーマッピング定義
+*   `nvim/lua/config/keymap.lua`: 汎用キーマップ（buffer, window, Telescope, Go test, Fugitive, gx）
+*   `nvim/lua/config/lsp.lua`: 全LSP関連キーマップ（native, Saga, diagnostics）
+*   `nvim/lua/config/dap.lua`: DAP adapter設定 + キーマップ
+*   `nvim/lua/config/terminal.lua`: ターミナル toggle キーマップ
+*   `nvim/lua/config/overseer.lua`: タスク実行キーマップ

@@ -47,7 +47,7 @@ end
 
 -- 3. autocmd でファイルを開いたときに実行
 vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
-	pattern = "*.s",
+	pattern = { "*.s", "*.S" },
 	callback = function()
 		local arch = detect_asm_arch()
 		if arch and asm_comments[arch] then

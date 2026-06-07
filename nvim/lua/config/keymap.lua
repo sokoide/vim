@@ -10,69 +10,31 @@ vim.keymap.set(
 	"n",
 	"<leader>md",
 	"<Cmd>RenderMarkdown toggle<CR><Cmd>MdTableAlignAll<CR>",
-	{ silent = true, desc = "Toggle Markdown render" }
+	{ silent = true, desc = "Toggle Markdown render + align tables" }
 )
 
 -- neo-tree
 vim.keymap.set("n", "<C-e>e", "<Cmd>Neotree toggle<CR>", { silent = true, desc = "Toggle Neo-tree" })
 
--- LSP Saga
-vim.keymap.set("n", "gr", "<Cmd>Lspsaga finder<CR>", { noremap = true, silent = true, desc = "LSP references" })
-vim.keymap.set(
-	"n",
-	"gp",
-	"<Cmd>Lspsaga peek_definition<CR>",
-	{ noremap = true, silent = true, desc = "LSP peek definition" }
-)
-vim.keymap.set("n", "<leader>rn", "<Cmd>Lspsaga rename<CR>", { noremap = true, silent = true, desc = "LSP rename" })
-vim.keymap.set(
-	"n",
-	"<leader>ca",
-	"<Cmd>Lspsaga code_action<CR>",
-	{ noremap = true, silent = true, desc = "LSP code action" }
-)
-
--- Diagnostics
-vim.keymap.set("n", "gl", vim.diagnostic.open_float, { desc = "Show line diagnostics" })
-vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, { desc = "Previous diagnostic" })
-vim.keymap.set("n", "]d", vim.diagnostic.goto_next, { desc = "Next diagnostic" })
-
--- Telescope
-local telescope = require("telescope.builtin")
-
--- find files
+-- Telescope (lazy require)
 vim.keymap.set("n", "<leader>ff", function()
-	telescope.find_files({ default_text = vim.fn.expand("<cword>") })
+	require("telescope.builtin").find_files({ default_text = vim.fn.expand("<cword>") })
 end, { desc = "Find files with <cword>" })
--- live grep
 vim.keymap.set("n", "<leader>fg", function()
-	telescope.live_grep({ default_text = vim.fn.expand("<cword>") })
+	require("telescope.builtin").live_grep({ default_text = vim.fn.expand("<cword>") })
 end, { desc = "Live grep with <cword>" })
--- buffer list
 vim.keymap.set("n", "<leader>fb", function()
-	telescope.buffers({ default_text = vim.fn.expand("<cword>") })
+	require("telescope.builtin").buffers({ default_text = vim.fn.expand("<cword>") })
 end, { desc = "Find buffers with <cword>" })
--- LSP symbols
-vim.keymap.set("n", "<leader>fs", telescope.lsp_document_symbols, { desc = "Document symbols" })
+vim.keymap.set("n", "<leader>fs", function()
+	require("telescope.builtin").lsp_document_symbols()
+end, { desc = "Document symbols" })
 vim.keymap.set("n", "<leader>fS", function()
-	telescope.lsp_workspace_symbols({ query = vim.fn.expand("<cword>") })
+	require("telescope.builtin").lsp_workspace_symbols({ query = vim.fn.expand("<cword>") })
 end, { desc = "Find workspace symbol <cword>" })
-
--- references
-vim.keymap.set("n", "<leader>fr", telescope.lsp_references, { noremap = true, silent = true, desc = "LSP references" })
-
--- Codex Terminal
-vim.keymap.set("n", "<leader>ct", function()
-	require("config.terminal").toggle_codex()
-end, { desc = "Toggle Codex Terminal" })
-
-vim.keymap.set("n", "<leader>ag", function()
-	require("config.terminal").toggle_gemini()
-end, { desc = "Toggle Gemini CLI" })
-
-vim.keymap.set("n", "<leader>ac", function()
-	require("config.terminal").toggle_claude()
-end, { desc = "Toggle Claude CLI" })
+vim.keymap.set("n", "<leader>fr", function()
+	require("telescope.builtin").lsp_references()
+end, { silent = true, desc = "LSP references" })
 
 -- Window
 vim.keymap.set("n", "<C-h>", "<C-w>h", { desc = "Window left" })
@@ -84,96 +46,9 @@ vim.keymap.set("n", "<C-l>", "<C-w>l", { desc = "Window right" })
 vim.keymap.set("n", "<leader>+", "<C-w>5>", { desc = "Increase window width by 5" })
 vim.keymap.set("n", "<leader>-", "<C-w>5<", { desc = "Decrease window width by 5" })
 
--- warnings & errors
-vim.keymap.set("n", "<leader>w", function()
-	vim.diagnostic.setqflist({ severity = vim.diagnostic.severity.WARN })
-end, { desc = "Show warnings in quickfix" })
-vim.keymap.set("n", "<leader>e", function()
-	vim.diagnostic.setqflist({ severity = vim.diagnostic.severity.ERROR })
-end, { desc = "Show errors in quickfix" })
-vim.keymap.set("n", "<leader>h", function()
-	vim.diagnostic.open_float(0, { scope = "line" })
-end, { desc = "Show line diagnostics" })
-
 -- Aerial
 vim.keymap.set("n", "<leader>ao", "<Cmd>AerialToggle!<CR>", { silent = true, desc = "Toggle Aerial outline" })
--- nvim-dap
-local dap = require("dap")
-local dapui = require("dapui")
 
-vim.fn.sign_define("DapBreakpoint", { text = "●", texthl = "DiagnosticSignError", linehl = "", numhl = "" })
-vim.fn.sign_define("DapBreakpointRejected", { text = "●", texthl = "DiagnosticSignError", linehl = "", numhl = "" })
-vim.fn.sign_define("DapStopped", { text = "▶", texthl = "DiagnosticSignInfo", linehl = "DapStoppedLine", numhl = "" })
-
-vim.keymap.set("n", "<F5>", function()
-	dap.continue()
-end, { desc = "DAP continue" })
-vim.keymap.set("n", "<A-r>", function()
-	dap.continue()
-end, { desc = "DAP continue" })
-
-vim.keymap.set("n", "<F9>", function()
-	dap.toggle_breakpoint()
-end, { desc = "DAP toggle breakpoint" })
-vim.keymap.set("n", "<A-b>", function()
-	dap.toggle_breakpoint()
-end, { desc = "DAP toggle breakpoint" })
-
-vim.keymap.set("n", "<F10>", function()
-	dap.step_over()
-end, { desc = "DAP step over" })
-vim.keymap.set("n", "<A-;>", function()
-	dap.step_over()
-end, { desc = "DAP step over" })
-
-vim.keymap.set("n", "<F11>", function()
-	dap.step_into()
-end, { desc = "DAP step into" })
-vim.keymap.set("n", "<A-'>", function()
-	dap.step_into()
-end, { desc = "DAP step into" })
-
-vim.keymap.set("n", "<F12>", function()
-	dap.step_out()
-end, { desc = "DAP step out" })
-vim.keymap.set("n", "<A-/>", function()
-	dap.step_out()
-end, { desc = "DAP step out" })
-
-vim.keymap.set("n", "<leader>dr", function()
-	dap.repl.open()
-end, { desc = "DAP REPL open" })
-vim.keymap.set("n", "<leader>dt", function()
-	dap.terminate()
-end, { desc = "DAP terminate" })
--- DAP UI maximize/restore toggle
-local dapui_maximized = false
-
-vim.keymap.set("n", "<leader>du", function()
-	if dapui_maximized then
-		-- Restore: reopen DAP UI
-		dapui.close()
-		dapui.open()
-		dapui_maximized = false
-	else
-		-- Maximize: close other DAP UI windows
-		local current_win = vim.api.nvim_get_current_win()
-		local current_buf = vim.api.nvim_win_get_buf(current_win)
-		local current_name = vim.api.nvim_buf_get_name(current_buf)
-
-		for _, win in ipairs(vim.api.nvim_list_wins()) do
-			if win ~= current_win then
-				local buf = vim.api.nvim_win_get_buf(win)
-				local name = vim.api.nvim_buf_get_name(buf)
-				-- Check if it's a DAP UI buffer (matches "DAP " prefix or "[dap-repl")
-				if name:match("DAP ") or name:match("%[dap%-") then
-					vim.api.nvim_win_close(win, true)
-				end
-			end
-		end
-		dapui_maximized = true
-	end
-end, { desc = "Maximize/Restore DAP UI pane" })
 -- =========================================
 -- Go Test Runner (QuickFix)
 -- =========================================
@@ -231,20 +106,6 @@ end, { desc = "Run Go Test for this file" })
 vim.keymap.set("n", "<leader>ta", function()
 	go_test_runner("all")
 end, { desc = "Run Go Test for all packages" })
-
--- overseer
-vim.keymap.set("n", "<leader>rr", "<Cmd>OverseerRun make_run<CR>", { silent = true, desc = "Overseer run" })
-vim.keymap.set("n", "<leader>R", "<Cmd>OverseerToggle<CR>", { silent = true, desc = "Overseer toggle" })
-vim.keymap.set("n", "<leader>k", function()
-	local overseer = require("overseer")
-	local tasks = overseer.list_tasks({ running = true })
-	if #tasks > 0 then
-		tasks[1]:stop()
-		vim.notify("Task stopped: " .. tasks[1].name)
-	else
-		vim.notify("No running tasks")
-	end
-end, { desc = "Kill running Overseer task" })
 
 -- vim-fugitive
 vim.keymap.set("n", "<leader>gd", ":Gvdiffsplit<CR>", { silent = true, desc = "Git Diff (Index)" })

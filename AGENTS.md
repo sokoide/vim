@@ -13,9 +13,23 @@ Termux uses `rm -rf` / `cp -r` instead of rsync (not available on Android).
 - `nvim/init.lua` — bootstrap lazy.nvim, load plugins, basic settings, clipboard, file watcher, autocmds (~150 lines)
 - `nvim/lua/plugins.lua` — all plugins + most inline config (~580 lines, this is the main config file)
 - `nvim/lua/config/*.lua` — per-plugin config files loaded from plugins.lua or init.lua
-  - `keymap.lua` — all general keymaps (window, buffer, Telescope, DAP, Go test, Overseer, Git)
+  - `keymap.lua` — 汎用キーマップ（plugin非依存: buffer, window, Telescope, Go test, Fugitive, gx）
+  - `lsp.lua` — 全LSP関連キーマップ（native + Saga + diagnostics + Telescope LSP）
+  - `dap.lua` — DAP adapter設定 + sign定義 + 全DAPキーマップ
+  - `terminal.lua` — toggleterm設定 + terminal toggleキーマップ
+  - `overseer.lua` — overseer template + タスク実行キーマップ
   - `asm.lua` — asm comment arch detection + `:AsmArch` command
   - `diff.lua` — diff mode wrap enforcement
+- `conductor/` — planning docs for ongoing work (read before making structural changes)
+
+## キーマップ配置ルール
+
+| 配置先 | 基準 |
+|---|---|
+| `keymap.lua` | plugin非依存の汎用マップ（Vimコマンド・Neovim built-in APIのみ） |
+| `config/<name>.lua` | その機能ドメインのキーマップ + 設定 |
+| `plugins.lua` | プラグインconfigに密結合したマップ（adapter選択などplugin APIを直接呼ぶもの） |
+| `lsp.lua` | 全LSP関連マップ（native + Saga + diagnostics） |
 - `conductor/` — planning docs for ongoing work (read before making structural changes)
 
 ## API keys
@@ -91,7 +105,7 @@ Uses OSC 52 (not system clipboard). Important for SSH/TMUX sessions — `pbcopy`
 
 ## Asm comment detection
 
-When opening `.s` files, detects architecture from path or register patterns:
+When opening `.s` / `.S` files, detects architecture from path or register patterns:
 `m68k` → `| ` / `x86` → `# ` / `aarch32` → `@ ` / `aarch64` → `// `
 Override with `:AsmArch {name}` (tab-completion for the 4 arch names).
 

@@ -50,4 +50,19 @@ function M.toggle_claude()
 	claude:toggle()
 end
 
+-----------------------------------------------------
+-- Keymaps
+-----------------------------------------------------
+vim.keymap.set("n", "<leader>ct", function()
+	M.toggle_codex()
+end, { desc = "Toggle Codex Terminal" })
+
+vim.keymap.set("n", "<leader>ag", function()
+	M.toggle_gemini()
+end, { desc = "Toggle Gemini CLI" })
+
+vim.keymap.set("n", "<leader>ac", function()
+	M.toggle_claude()
+end, { desc = "Toggle Claude CLI" })
+
 return M

@@ -33,3 +33,18 @@ overseer.register_template({
 		}
 	end,
 })
+
+-----------------------------------------------------
+-- Keymaps
+-----------------------------------------------------
+vim.keymap.set("n", "<leader>rr", "<Cmd>OverseerRun make_run<CR>", { silent = true, desc = "Overseer run" })
+vim.keymap.set("n", "<leader>R", "<Cmd>OverseerToggle<CR>", { silent = true, desc = "Overseer toggle" })
+vim.keymap.set("n", "<leader>k", function()
+	local tasks = overseer.list_tasks({ running = true })
+	if #tasks > 0 then
+		tasks[1]:stop()
+		vim.notify("Task stopped: " .. tasks[1].name)
+	else
+		vim.notify("No running tasks")
+	end
+end, { desc = "Kill running Overseer task" })
