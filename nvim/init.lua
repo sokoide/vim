@@ -147,3 +147,40 @@ require("config.asm")
 
 -- diff mode wrap
 require("config.diff")
+
+-- :README — ガイドをフローティングウィンドウで表示
+vim.api.nvim_create_user_command("README", function()
+	local path = vim.fn.stdpath("config") .. "/README.md"
+	if vim.fn.filereadable(path) == 0 then
+		vim.notify("README.md not found: " .. path, vim.log.levels.ERROR)
+		return
+	end
+
+	local buf = vim.api.nvim_create_buf(false, true)
+	vim.api.nvim_buf_set_option(buf, "bufhidden", "wipe")
+	vim.api.nvim_buf_set_option(buf, "readonly", true)
+	vim.bo[buf].filetype = "markdown"
+
+	local lines = vim.fn.readfile(path)
+	vim.api.nvim_buf_set_lines(buf, 0, -1, false, lines)
+
+	local width = math.min(math.floor(vim.o.columns * 0.8), 100)
+	local height = math.min(math.floor(vim.o.lines * 0.85), 60)
+	local col = math.floor((vim.o.columns - width) / 2)
+	local row = math.floor((vim.o.lines - height) / 2)
+
+	local win = vim.api.nvim_open_win(buf, true, {
+		relative = "editor",
+		width = width,
+		height = height,
+		col = col,
+		row = row,
+		border = "rounded",
+		style = "minimal",
+	})
+	vim.api.nvim_win_set_option(win, "wrap", true)
+	vim.api.nvim_win_set_option(win, "signcolumn", "no")
+
+	-- q で閉じる
+	vim.keymap.set("n", "q", "<Cmd>close<CR>", { buffer = true, silent = true })
+end, { desc = "Open config README" })

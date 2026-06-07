@@ -14,3 +14,4 @@ else
 	rsync -av --delete nvim/ $(HOME)/.config/nvim/
 endif
 	cp .prettierrc.json $(HOME)/
+	cp README.md $(HOME)/.config/nvim/
