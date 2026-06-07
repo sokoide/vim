@@ -1,4 +1,6 @@
 require("minuet").setup({
+	notify = "verbose",
+	request_timeout = 30,
 	provider = "openai_compatible",
 	provider_options = {
 		openai = {},
@@ -7,6 +9,7 @@ require("minuet").setup({
 			end_point = "https://opencode.ai/zen/go/v1/chat/completions",
 			api_key = "OPENCODE_GO_API_KEY",
 			name = "opencode-go",
+			stream = true,
 		},
 		gemini = {
 			model = "gemini-3.1-flash-lite",
@@ -18,7 +21,7 @@ require("minuet").setup({
 		},
 	},
 	virtualtext = {
-		auto_trigger_ft = {},
+		auto_trigger_ft = { "lua", "go", "c", "cpp", "python", "javascript", "typescript", "rust", "sh" },
 		auto_trigger_ignore_ft = { "codecompanion" },
 		enable_predicates = {
 			function()
@@ -36,6 +39,6 @@ require("minuet").setup({
 })
 
 -- manual trigger
-vim.keymap.set("i", "<C-g>", function()
+vim.keymap.set("i", "<A-g>", function()
 	require("minuet.virtualtext").action.next()
 end, { desc = "Minuet AI Show" })

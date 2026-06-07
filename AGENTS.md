@@ -39,6 +39,7 @@ Loaded from `~/.glm` (shell `export VAR=value` format):
 - `ANTHROPIC_BASE_URL` — optional, for custom endpoint
 - `GEMINI_API_KEY` — for gemini adapters and Minuet gemini backend
 - `OPENAI_API_KEY` — for openai adapter
+- `OPENCODE_GO_API_KEY` — for CodeCompanion/Minuet OpenCode Go adapters
 
 Neovim bootstrap reads them at the top of `init.lua`. AI features (CodeCompanion, Minuet) will silently fail if `~/.glm` is missing.
 
@@ -49,7 +50,7 @@ Neovim bootstrap reads them at the top of `init.lua`. AI features (CodeCompanion
 ## Key quirks
 
 - `<C-e>e` — Neo-tree toggle (not `<C-n>` or `<leader>e`)
-- `<A-f>` — Minuet AI manual trigger (auto_trigger_ft is empty, completion is always manual)
+- `<A-g>` — Minuet AI manual trigger
 - `nvim-cmp` autocomplete is disabled — `<C-y>` triggers completion manually
 - `<leader>md` toggles RenderMarkdown AND runs `MdTableAlignAll`
 - `<leader>rr` runs overseer (was `<leader>r` — changed to avoid prefix conflict with `<leader>rn`)
