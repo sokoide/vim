@@ -33,4 +33,3 @@ require("neo-tree").setup({
 		},
 	},
 })
-

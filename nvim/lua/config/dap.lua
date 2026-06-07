@@ -19,10 +19,7 @@ local function remap_path(path)
 	if not path then
 		return nil
 	end
-	return path:gsub(
-		"/Users/scott/Library/CloudStorage/OneDrive%-Personal/",
-		"/Users/scott/"
-	)
+	return path:gsub("/Users/scott/Library/CloudStorage/OneDrive%-Personal/", "/Users/scott/")
 end
 
 -- Session.requestをラップしてsetBreakpoints送信前にパスを書き換え

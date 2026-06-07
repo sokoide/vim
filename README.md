@@ -8,21 +8,21 @@
 
 ### カテゴリ別プラグイン一覧
 
-| カテゴリ | プラグイン名 | 概要 |
-| :--- | :--- | :--- |
-| **ファイラー** | `neo-tree.nvim` | ファイルツリーエクスプローラー。 |
-| **Outline** | `aerial.nvim` | 関数・クラス構造のシンボル一覧表示。 |
-| **検索** | `telescope.nvim` | ファイル検索、Grep、シンボル検索。 |
-| **LSP管理** | `nvim-lspconfig`, `mason` | 言語サーバーの管理。 |
-| **シンタックス** | `nvim-treesitter` | コード構造解析・ハイライト。 |
-| **デバッグ** | `nvim-dap` | デバッガー。 |
-| **AI統合** | `codecompanion.nvim` | AIチャット/インラインコード編集。 |
-| **AI補完** | `minuet-ai.nvim` | AIによるコード自動補完。 |
-| **UI強化** | `noice.nvim` | 通知やコマンドラインの視覚的強化。 |
-| **Git** | `vim-fugitive` | Gitコマンド操作・Diff確認。 |
-| **タスク実行** | `overseer.nvim` | タスクランナー。 |
-| **補完UI** | `nvim-cmp` | 補完メニューの表示管理。 |
-| **Markdown** | `render-markdown.nvim`, `markdown-preview.nvim` | 編集画面・ブラウザでのプレビュー。 |
+| カテゴリ         | プラグイン名                                    | 概要                                 |
+| :---             | :---                                            | :---                                 |
+| **ファイラー**   | `neo-tree.nvim`                                 | ファイルツリーエクスプローラー。     |
+| **Outline**      | `aerial.nvim`                                   | 関数・クラス構造のシンボル一覧表示。 |
+| **検索**         | `telescope.nvim`                                | ファイル検索、Grep、シンボル検索。   |
+| **LSP管理**      | `nvim-lspconfig`, `mason`                       | 言語サーバーの管理。                 |
+| **シンタックス** | `nvim-treesitter`                               | コード構造解析・ハイライト。         |
+| **デバッグ**     | `nvim-dap`                                      | デバッガー。                         |
+| **AI統合**       | `codecompanion.nvim`                            | AIチャット/インラインコード編集。    |
+| **AI補完**       | `minuet-ai.nvim`                                | AIによるコード自動補完。             |
+| **UI強化**       | `noice.nvim`                                    | 通知やコマンドラインの視覚的強化。   |
+| **Git**          | `vim-fugitive`                                  | Gitコマンド操作・Diff確認。          |
+| **タスク実行**   | `overseer.nvim`                                 | タスクランナー。                     |
+| **補完UI**       | `nvim-cmp`                                      | 補完メニューの表示管理。             |
+| **Markdown**     | `render-markdown.nvim`, `markdown-preview.nvim` | 編集画面・ブラウザでのプレビュー。   |
 
 ---
 
@@ -103,7 +103,7 @@
 *   **make実行**: `<leader>ma` (Quickfixで結果表示)
 
 ### タスク実行 (Overseer)
-*   **タスク実行 (選択)**: `<leader>r`
+*   **タスク実行 (選択)**: `<leader>rr`
 *   **タスク一覧表示**: `<leader>R`
 *   **実行中タスクの停止**: `<leader>k`
 

@@ -17,18 +17,18 @@ vim.keymap.set(
 vim.keymap.set("n", "<C-e>e", "<Cmd>Neotree toggle<CR>", { silent = true, desc = "Toggle Neo-tree" })
 
 -- LSP Saga
-vim.keymap.set("n", "gr", "<cmd>Lspsaga finder<CR>", { noremap = true, silent = true, desc = "LSP references" })
+vim.keymap.set("n", "gr", "<Cmd>Lspsaga finder<CR>", { noremap = true, silent = true, desc = "LSP references" })
 vim.keymap.set(
 	"n",
 	"gp",
-	"<cmd>Lspsaga peek_definition<CR>",
+	"<Cmd>Lspsaga peek_definition<CR>",
 	{ noremap = true, silent = true, desc = "LSP peek definition" }
 )
-vim.keymap.set("n", "<leader>rn", "<cmd>Lspsaga rename<CR>", { noremap = true, silent = true, desc = "LSP rename" })
+vim.keymap.set("n", "<leader>rn", "<Cmd>Lspsaga rename<CR>", { noremap = true, silent = true, desc = "LSP rename" })
 vim.keymap.set(
 	"n",
 	"<leader>ca",
-	"<cmd>Lspsaga code_action<CR>",
+	"<Cmd>Lspsaga code_action<CR>",
 	{ noremap = true, silent = true, desc = "LSP code action" }
 )
 
@@ -96,7 +96,7 @@ vim.keymap.set("n", "<leader>h", function()
 end, { desc = "Show line diagnostics" })
 
 -- Aerial
-vim.keymap.set("n", "<leader>ao", "<cmd>AerialToggle!<CR>", { silent = true, desc = "Toggle Aerial outline" })
+vim.keymap.set("n", "<leader>ao", "<Cmd>AerialToggle!<CR>", { silent = true, desc = "Toggle Aerial outline" })
 -- nvim-dap
 local dap = require("dap")
 local dapui = require("dapui")
@@ -233,7 +233,7 @@ vim.keymap.set("n", "<leader>ta", function()
 end, { desc = "Run Go Test for all packages" })
 
 -- overseer
-vim.keymap.set("n", "<leader>r", "<Cmd>OverseerRun make_run<CR>", { silent = true, desc = "Overseer run" })
+vim.keymap.set("n", "<leader>rr", "<Cmd>OverseerRun make_run<CR>", { silent = true, desc = "Overseer run" })
 vim.keymap.set("n", "<leader>R", "<Cmd>OverseerToggle<CR>", { silent = true, desc = "Overseer toggle" })
 vim.keymap.set("n", "<leader>k", function()
 	local overseer = require("overseer")

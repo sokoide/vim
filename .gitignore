@@ -1,5 +1,9 @@
-# Serena
-.serena
+# AI
+.claude/
+.omc
+.serena/
+conductor/
+.ai-handoff.md
 
 # macOS
 .DS_Store

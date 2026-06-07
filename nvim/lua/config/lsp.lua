@@ -188,11 +188,9 @@ vim.lsp.enable("jdtls")
 -----------------------------------------------------
 -- Keymaps (全 LSP 共通)
 -----------------------------------------------------
-local opts = { noremap = true, silent = true }
-
-vim.keymap.set("n", "gd", vim.lsp.buf.definition, opts)
-vim.keymap.set("n", "gD", vim.lsp.buf.declaration, opts)
-vim.keymap.set("n", "gi", vim.lsp.buf.implementation, opts)
-vim.keymap.set("n", "gy", vim.lsp.buf.type_definition, opts)
-vim.keymap.set("n", "gR", vim.lsp.buf.references, opts)
-vim.keymap.set("n", "K", vim.lsp.buf.hover, opts)
+vim.keymap.set("n", "gd", vim.lsp.buf.definition, { noremap = true, silent = true, desc = "LSP definition" })
+vim.keymap.set("n", "gD", vim.lsp.buf.declaration, { noremap = true, silent = true, desc = "LSP declaration" })
+vim.keymap.set("n", "gi", vim.lsp.buf.implementation, { noremap = true, silent = true, desc = "LSP implementation" })
+vim.keymap.set("n", "gy", vim.lsp.buf.type_definition, { noremap = true, silent = true, desc = "LSP type definition" })
+vim.keymap.set("n", "gR", vim.lsp.buf.references, { noremap = true, silent = true, desc = "LSP references" })
+vim.keymap.set("n", "K", vim.lsp.buf.hover, { noremap = true, silent = true, desc = "LSP hover" })
