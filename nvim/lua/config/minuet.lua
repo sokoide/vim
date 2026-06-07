@@ -13,13 +13,11 @@ require("minuet").setup({
 			api_key = "GEMINI_API_KEY",
 		},
 		anthropic = {
-			-- model = "claude-3-5-sonnet-20240620",
 			model = "GLM-4.5-Air",
 			api_key = "ANTHROPIC_AUTH_TOKEN",
 		},
 	},
 	virtualtext = {
-		-- auto_trigger_ft = { "lua", "python", "javascript", "typescript", "rust", "go", "c", "cpp" },
 		auto_trigger_ft = {},
 		auto_trigger_ignore_ft = { "codecompanion" },
 		enable_predicates = {
@@ -28,16 +26,16 @@ require("minuet").setup({
 			end,
 		},
 		keymap = {
-			accept = "<A-y>",
-			accept_line = "<A-l>",
-			next = "<A-]>",
-			prev = "<A-[>",
-			dismiss = "<A-e>",
+			accept = "<C-f>",
+			accept_line = "<C-l>",
+			next = "<C-]>",
+			prev = "<C-b>",
+			dismiss = "<C-e>",
 		},
 	},
 })
 
 -- manual trigger
-vim.keymap.set("i", "<A-f>", function()
+vim.keymap.set("i", "<C-g>", function()
 	require("minuet.virtualtext").action.next()
 end, { desc = "Minuet AI Show" })

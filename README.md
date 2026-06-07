@@ -72,6 +72,8 @@
 
 ### AI アシスト (CodeCompanion)
 *   **AI アクションメニュー**: `<leader>aa`
+*   **AI チャット (Opencode Go)**: `<leader>aio`
+*   **AI チャット (Opencode Go Pro)**: `<leader>aiO`
 *   **AI チャット (Claude)**: `<leader>aic`
 *   **AI チャット (Gemini API)**: `<leader>aig`
 *   **AI チャット (Gemini Login)**: `<leader>ail`
@@ -79,11 +81,12 @@
 *   **AI インライン生成**: `<leader>an` (ノーマル/ビジュアルモード両対応)
 
 ### AI 補完 (Minuet AI)
-*   **手動トリガー**: `<A-f>`
-*   **補完採用**: `<A-y>`
-*   **行採用**: `<A-l>`
-*   **次/前の候補**: `<A-]>`, `<A-[>`
-*   **破棄**: `<A-e>`
+*   **手動トリガー**: `<C-g>` (**g**enerate)
+*   **補完採用**: `<C-f>` (**f**inish)
+*   **行採用**: `<C-l>` (**l**ine)
+*   **次の候補**: `<C-]>` (forward)
+*   **前の候補**: `<C-b>` (**b**ack)
+*   **破棄**: `<C-e>` (**e**nd)
 
 ### 補完UI (nvim-cmp)
 *   **補完完了**: `<C-y>`
