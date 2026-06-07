@@ -50,7 +50,7 @@ Neovim bootstrap reads them at the top of `init.lua`. AI features (CodeCompanion
 ## Key quirks
 
 - `<C-e>e` — Neo-tree toggle (not `<C-n>` or `<leader>e`)
-- `<A-g>` — Minuet AI manual trigger
+- `<A-g>` — Minuet AI manual trigger (auto_trigger_ft is empty, completion is always manual)
 - `nvim-cmp` autocomplete is disabled — `<C-y>` triggers completion manually
 - `<leader>md` toggles RenderMarkdown AND runs `MdTableAlignAll`
 - `<leader>rr` runs overseer (was `<leader>r` — changed to avoid prefix conflict with `<leader>rn`)

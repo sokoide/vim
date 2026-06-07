@@ -1,7 +1,6 @@
 require("minuet").setup({
-	notify = "verbose",
-	request_timeout = 30,
-	provider = "openai_compatible",
+	request_timeout = 10,
+	provider = "gemini",
 	provider_options = {
 		openai = {},
 		openai_compatible = {
@@ -21,7 +20,7 @@ require("minuet").setup({
 		},
 	},
 	virtualtext = {
-		auto_trigger_ft = { "lua", "go", "c", "cpp", "python", "javascript", "typescript", "rust", "sh" },
+		auto_trigger_ft = {},
 		auto_trigger_ignore_ft = { "codecompanion" },
 		enable_predicates = {
 			function()
@@ -29,11 +28,11 @@ require("minuet").setup({
 			end,
 		},
 		keymap = {
-			accept = "<C-f>",
-			accept_line = "<C-l>",
-			next = "<C-]>",
-			prev = "<C-b>",
-			dismiss = "<C-e>",
+			accept = "<A-j>",
+			accept_line = "<A-l>",
+			next = "<A-n>",
+			prev = "<A-p>",
+			dismiss = "<A-e>",
 		},
 	},
 })
