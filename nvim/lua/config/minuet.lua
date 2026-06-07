@@ -3,10 +3,10 @@ require("minuet").setup({
 	provider_options = {
 		openai = {},
 		openai_compatible = {
-			model = "GLM-4.5-Air",
-			end_point = "https://api.z.ai/api/coding/paas/v4/chat/completions",
-			api_key = "ANTHROPIC_AUTH_TOKEN",
-			name = "z.ai",
+			model = "deepseek-v4-flash",
+			end_point = "https://opencode.ai/zen/go/v1/chat/completions",
+			api_key = "OPENCODE_GO_API_KEY",
+			name = "opencode-go",
 		},
 		gemini = {
 			model = "gemini-3.1-flash-lite",

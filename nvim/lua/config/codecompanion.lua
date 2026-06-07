@@ -59,12 +59,26 @@ require("codecompanion").setup({
 					},
 				})
 			end,
+				opencode_go = function()
+					return require("codecompanion.adapters").extend("openai", {
+						env = { api_key = "OPENCODE_GO_API_KEY" },
+						url = "https://opencode.ai/zen/go/v1/chat/completions",
+						schema = { model = { default = "deepseek-v4-flash" } },
+					})
+				end,
+				opencode_go_pro = function()
+					return require("codecompanion.adapters").extend("openai", {
+						env = { api_key = "OPENCODE_GO_API_KEY" },
+						url = "https://opencode.ai/zen/go/v1/chat/completions",
+						schema = { model = { default = "deepseek-v4-pro" } },
+					})
+				end,
 		},
 	},
 	strategies = {
-		chat = { adapter = "litellm" },
-		inline = { adapter = "litellm" },
-		cmd = { adapter = "litellm" },
+		chat = { adapter = "opencode_go" },
+		inline = { adapter = "opencode_go" },
+		cmd = { adapter = "opencode_go" },
 	},
 	display = {
 		chat = {
@@ -91,6 +105,12 @@ vim.keymap.set(
 )
 
 -- Specific Chats (Lua API to ensure correct adapter)
+vim.keymap.set("n", "<leader>aio", function()
+	require("codecompanion").chat({ params = { adapter = "opencode_go" } })
+end, { silent = true, desc = "AI Chat (OpenCode Go Flash)" })
+vim.keymap.set("n", "<leader>aiO", function()
+	require("codecompanion").chat({ params = { adapter = "opencode_go_pro" } })
+end, { silent = true, desc = "AI Chat (OpenCode Go Pro)" })
 vim.keymap.set("n", "<leader>aic", function()
 	require("codecompanion").chat({ params = { adapter = "litellm" } })
 end, { silent = true, desc = "AI Chat (Claude)" })
@@ -105,6 +125,12 @@ vim.keymap.set("n", "<leader>aix", function()
 end, { silent = true, desc = "AI Chat (ChatGPT)" })
 
 -- Visual mode Chat Add
+vim.keymap.set("v", "<leader>aio", function()
+	require("codecompanion").chat({ params = { adapter = "opencode_go" } })
+end, { silent = true, desc = "AI Chat Add (OpenCode Go Flash)" })
+vim.keymap.set("v", "<leader>aiO", function()
+	require("codecompanion").chat({ params = { adapter = "opencode_go_pro" } })
+end, { silent = true, desc = "AI Chat Add (OpenCode Go Pro)" })
 vim.keymap.set("v", "<leader>aic", function()
 	require("codecompanion").chat({ params = { adapter = "litellm" } })
 end, { silent = true, desc = "AI Chat Add (Claude)" })
