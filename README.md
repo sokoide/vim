@@ -88,6 +88,12 @@
 *   **前の候補**: `<A-p>` (prev)
 *   **破棄**: `<A-e>` (end)
 
+**プロバイダ切替** (Gemini 制限時):
+```
+:Minuet change_provider openai   -- GPT-5.4-nano に切替 (従量課金)
+:Minuet change_provider gemini   -- Gemini に戻す
+```
+
 ### 補完UI (nvim-cmp)
 *   **補完完了**: `<C-y>`
 *   **確定**: `<CR>`

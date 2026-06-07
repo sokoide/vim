@@ -2,7 +2,11 @@ require("minuet").setup({
 	request_timeout = 10,
 	provider = "gemini",
 	provider_options = {
-		openai = {},
+		openai = {
+			model = "gpt-5.4-nano",
+			api_key = "OPENAI_API_KEY",
+			stream = true,
+		},
 		openai_compatible = {
 			model = "deepseek-v4-flash",
 			end_point = "https://opencode.ai/zen/go/v1/chat/completions",

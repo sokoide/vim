@@ -51,6 +51,7 @@ Neovim bootstrap reads them at the top of `init.lua`. AI features (CodeCompanion
 
 - `<C-e>e` — Neo-tree toggle (not `<C-n>` or `<leader>e`)
 - `<A-g>` — Minuet AI manual trigger (auto_trigger_ft is empty, completion is always manual)
+- `:Minuet change_provider` — Gemini 制限時に `openai` (GPT-5.4-nano) へ切替
 - `nvim-cmp` autocomplete is disabled — `<C-y>` triggers completion manually
 - `<leader>md` toggles RenderMarkdown AND runs `MdTableAlignAll`
 - `<leader>rr` runs overseer (was `<leader>r` — changed to avoid prefix conflict with `<leader>rn`)
