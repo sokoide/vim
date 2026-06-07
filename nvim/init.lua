@@ -164,10 +164,10 @@ vim.api.nvim_create_user_command("README", function()
 	local lines = vim.fn.readfile(path)
 	vim.api.nvim_buf_set_lines(buf, 0, -1, false, lines)
 
-	local width = math.min(math.floor(vim.o.columns * 0.8), 100)
-	local height = math.min(math.floor(vim.o.lines * 0.85), 60)
-	local col = math.floor((vim.o.columns - width) / 2)
-	local row = math.floor((vim.o.lines - height) / 2)
+	local width = vim.o.columns - 4
+	local height = vim.o.lines - 6
+	local col = 2
+	local row = 1
 
 	local win = vim.api.nvim_open_win(buf, true, {
 		relative = "editor",
