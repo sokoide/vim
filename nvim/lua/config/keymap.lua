@@ -2,7 +2,23 @@
 vim.keymap.set("n", "<C-p>", "<Cmd>bprevious<CR>", { silent = true, desc = "Previous buffer" })
 vim.keymap.set("n", "<C-n>", "<Cmd>bnext<CR>", { silent = true, desc = "Next buffer" })
 vim.keymap.set("n", "<leader>q", "<Cmd>copen<CR><Cmd>cfirst<CR>", { silent = true, desc = "Open quickfix" })
-vim.keymap.set("n", "<leader>ma", "<Cmd>make!<CR><Cmd>copen<CR><Cmd>cfirst<CR>", { silent = true, desc = "Run make" })
+
+-- make moves cursor to an error line if exists
+-- make! doesn't move cursor to an error line if exists
+vim.keymap.set("n", "<leader>ma", "<Cmd>make<CR><Cmd>copen<CR><Cmd>cfirst<CR>", { silent = true, desc = "Run make" })
+vim.keymap.set(
+	"n",
+	"<leader>mr",
+	"<Cmd>make run<CR><Cmd>copen<CR><Cmd>cfirst<CR>",
+	{ silent = true, desc = "Run make" }
+)
+vim.keymap.set("n", "<leader>]", "<Cmd>qa<CR>", { silent = true, desc = "Quit all" })
+vim.keymap.set(
+	"n",
+	"<leader>mt",
+	"<Cmd>make test<CR><Cmd>copen<CR><Cmd>cfirst<CR>",
+	{ silent = true, desc = "Run make" }
+)
 vim.keymap.set("n", "<leader>]", "<Cmd>qa<CR>", { silent = true, desc = "Quit all" })
 
 -- markdown
