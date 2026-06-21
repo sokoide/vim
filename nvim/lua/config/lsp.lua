@@ -173,6 +173,8 @@ vim.lsp.enable("ts_ls")
 -- C#
 -----------------------------------------------------
 vim.lsp.config("csharp_ls", {
+	-- AUR 版システムバイナリを使用（デフォルトの csharp-ls ではなく csharp-language-server）
+	cmd = { "csharp-language-server" },
 	capabilities = capabilities,
 })
 vim.lsp.enable("csharp_ls")

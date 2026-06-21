@@ -78,7 +78,8 @@ Two functions are monkey-patched to prevent crashes on `codecompanion` filetype 
 
 Used in two places:
 - `init.lua`: sets `TMPDIR` and `XDG_RUNTIME_DIR` (Android has no `/tmp`)
-- `plugins.lua` (mason-tool-installer): skips asm-lsp, clangd, csharp-ls, stylua
+- `plugins.lua` (mason-tool-installer): skips asm-lsp, clangd, stylua
+  - ※ `csharp-language-server` は Mason 管理対象外。AUR 版システムバイナリ（`/usr/bin/csharp-language-server`）を `lsp.lua` の `cmd` で直接起動する。自己完結バイナリのため dotnet SDK 不要。
 
 ## LSP
 

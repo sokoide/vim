@@ -140,7 +140,7 @@ return {
 			if not is_termux then
 				table.insert(tools, "asm-lsp")
 				table.insert(tools, "clangd")
-				table.insert(tools, "csharp-language-server")
+				-- csharp-language-server は AUR 版システムバイナリを使用（lsp.lua の cmd 参照）
 				table.insert(tools, "stylua")
 			end
 
