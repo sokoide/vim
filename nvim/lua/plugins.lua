@@ -57,7 +57,7 @@ return {
 	-- Telescope（fzf代替）
 	{
 		"nvim-telescope/telescope.nvim",
-		tag = "0.1.5",
+		tag = "0.2.1",
 		config = function()
 			require("telescope").setup({})
 			require("telescope").load_extension("ui-select")
