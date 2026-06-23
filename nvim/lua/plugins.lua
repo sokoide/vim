@@ -165,7 +165,7 @@ return {
 		"stevearc/aerial.nvim",
 		config = function()
 			require("aerial").setup({
-				backends = { "lsp", "treesitter", "markdown" },
+				backends = { "asm", "lsp", "treesitter", "markdown" },
 				layout = {
 					max_width = 0.3,
 					min_width = 20,
