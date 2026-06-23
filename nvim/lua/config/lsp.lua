@@ -1,6 +1,5 @@
 -- 共通 capabilities
 local capabilities = vim.lsp.protocol.make_client_capabilities()
-local util = require("lspconfig.util")
 
 local function on_attach(client, bufnr)
 	client.server_capabilities.documentFormattingProvider = false
@@ -10,82 +9,17 @@ end
 ------------------------------------------------------
 -- Assembly (asm-lsp)
 -----------------------------------------------------
+-- asm-lsp は x86/NASM/GAS 向け（6502/ca65/z80 には不適）。
+-- シンボル抽出は aerial のカスタムバックエンド (aerial.backends.asm) が担当するため、
+-- ここでは hover / 補完 / 定義ジャンプ用のみ。publishDiagnostics は誤報告だらけなので破棄。
+-- | コメント整列・cinkeys 調整は config/asm.lua へ分離済み。
 vim.lsp.config("asm_lsp", {
 	capabilities = capabilities,
-	filetypes = { "asm", "s", "S", "nasm", "gnuasm" },
+	filetypes = { "asm", "s", "S", "nasm", "gnuasm", "gas" },
 	handlers = {
 		-- 大量のエラー(expected newline)を非表示にする
 		["textDocument/publishDiagnostics"] = function() end,
 	},
-	on_attach = function(client, bufnr)
-		-- 保存時のバッファ書き換えにVimが過剰反応するのを防ぐ
-		vim.opt_local.cinkeys:remove("0#")
-		vim.opt_local.indentkeys:remove("0#")
-
-		-- アセンブリファイル保存時の自動処理
-		vim.api.nvim_create_autocmd("BufWritePre", {
-			buffer = bufnr,
-			callback = function()
-				-- 1. 現在のバッファの全行を取得
-				local lines = vim.api.nvim_buf_get_lines(bufnr, 0, -1, false)
-				local max_width = 0
-				local parsed = {}
-
-				-- 2. 1巡目: 特殊空白を掃除しつつ、コード部分の「画面上の本当の幅」を計算
-				for i, line in ipairs(lines) do
-					-- Webコピペ等で混入する特殊な空白(ノーブレークスペース)を通常のスペースに変換
-					local clean_line = line:gsub("\xc2\xa0", " ")
-
-					-- ★ 改良：行頭のインデント、コメント記号、中身を分解して取得
-					local indent, symbol, content = clean_line:match("^(%s*)([#|])%s*(.*)$")
-
-					if indent then
-						-- 独立コメント行の場合：後ろの余分なスペースを削り、綺麗に整形する
-						content = content:gsub("%s+$", "") -- 末尾の空白をトリミング
-						local new_line = indent .. symbol
-						if content ~= "" then
-							new_line = new_line .. " " .. content -- 記号の後ろはスペース1個だけに固定
-						end
-						-- 整形後のラインを上書き対象（rewrite）として登録
-						table.insert(parsed, { idx = i, rewrite = new_line })
-					else
-						-- 「|」を境にコードとコメントに分離（通常のコード＋右側コメントの行）
-						local code, comment = clean_line:match("^([^|]-)%s*|%s*(.*)$")
-						if code then
-							code = code:gsub("%s+$", "") -- コード末尾の余分な空白だけをトリミング
-
-							-- タブ文字 (\t) の幅も考慮して、画面上の正確な表示幅を計算
-							local width = vim.fn.strdisplaywidth(code)
-							if width > max_width then
-								max_width = width
-							end
-							table.insert(parsed, { idx = i, code = code, comment = comment })
-						else
-							-- 「|」がない行（loop: や .text など）はそのまま無傷でキープ
-							table.insert(parsed, { idx = i, orig = line })
-						end
-					end
-				end
-
-				-- 3. 揃える基準列を決定（最長コードの幅 + 2スペース、最低でも40列目）
-				local target_col = math.max(40, max_width + 2)
-
-				-- 4. 2巡目: 計算した位置に合わせてスペースを綺麗に補完して書き換える
-				for _, item in ipairs(parsed) do
-					if item.code then
-						-- 通常のコード＋右側コメント行の整列
-						local current_width = vim.fn.strdisplaywidth(item.code)
-						local padding = string.rep(" ", target_col - current_width)
-						local new_line = item.code .. padding .. "| " .. item.comment
-						vim.api.nvim_buf_set_lines(bufnr, item.idx - 1, item.idx, false, { new_line })
-					elseif item.rewrite then
-						-- ★ 追加：独立コメント行の余分なスペースを削った状態に書き換える
-						vim.api.nvim_buf_set_lines(bufnr, item.idx - 1, item.idx, false, { item.rewrite })
-					end
-				end
-			end,
-		})
-	end,
 })
 vim.lsp.enable("asm_lsp")
 
@@ -119,7 +53,7 @@ vim.lsp.config("golangci_lint_ls", {
 	on_attach = on_attach,
 	capabilities = capabilities,
 	root_dir = function(fname)
-		return util.root_pattern("go.work", "go.mod", ".git")(fname)
+		return vim.fs.root(fname, { "go.work", "go.mod", ".git" })
 	end,
 	init_options = {
 		command = {
