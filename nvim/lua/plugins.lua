@@ -254,15 +254,11 @@ return {
 		end,
 	},
 
-	-- LSP progress indicator（proot debianではclone失敗するためスキップ）
+	-- LSP progress indicator
 	{
 		"j-hui/fidget.nvim",
 		event = "LspAttach",
 		opts = {},
-		enabled = not (
-			(vim.fn.has("android") == 1 or os.getenv("ANDROID_ROOT") ~= nil)
-			and vim.env.TERMUX_VERSION == nil
-		),
 	},
 
 	-- Lspsaga
