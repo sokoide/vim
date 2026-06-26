@@ -157,7 +157,6 @@ return {
 				"typescript-language-server",
 				"jdtls",
 				"pyright",
-				"ruff",
 				"eslint-lsp",
 				"prettierd",
 			}
@@ -167,6 +166,11 @@ return {
 				table.insert(tools, "clangd")
 				-- csharp-language-server は AUR 版システムバイナリを使用（lsp.lua の cmd 参照）
 				table.insert(tools, "stylua")
+				-- ruff: manylinux wheel を pip インストール（非 Termux 環境）
+				table.insert(tools, "ruff")
+			else
+				-- Termux は ruff の wheel が無く mason/pip で失敗するため、
+				-- `pkg install ruff` のシステムバイナリを使用（lsp.lua / conform.lua は PATH の ruff を参照）
 			end
 
 			require("mason-tool-installer").setup({
