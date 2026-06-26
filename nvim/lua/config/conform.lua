@@ -14,6 +14,7 @@ conform.setup({
 		json = { "prettierd", "prettier", "jq", stop_after_first = true },
 		jsonc = { "prettierd", "prettier", stop_after_first = true },
 		lua = { "stylua" },
+		python = { "ruff_fix", "ruff_format" },
 		rust = { "rustfmt" },
 		typescript = { "prettier" },
 		typescriptreact = { "prettier" },
@@ -57,4 +58,16 @@ conform.formatters.prettierd = {
 	env = {
 		PRETTIERD_DEFAULT_CONFIG = prettier_config,
 	},
+}
+
+-- ruff: fix → format の順で実行（fixが先）
+conform.formatters.ruff_fix = {
+	command = "ruff",
+	args = { "check", "--fix", "--force-exclude", "--quiet", "-" },
+	cwd = require("conform.util").root_file({ "pyproject.toml", "ruff.toml", ".ruff.toml" }),
+}
+conform.formatters.ruff_format = {
+	command = "ruff",
+	args = { "format", "--force-exclude", "--quiet", "-" },
+	cwd = require("conform.util").root_file({ "pyproject.toml", "ruff.toml", ".ruff.toml" }),
 }

@@ -48,8 +48,16 @@ vim.opt.expandtab = true
 vim.opt.tabstop = 4
 vim.opt.shiftwidth = 4
 vim.opt.smartindent = true
-vim.opt.clipboard = "unnamedplus"
 vim.opt.wrap = true
+vim.opt.undofile = true             -- 永続undo
+vim.opt.swapfile = false            -- swapfile不要（undoでカバー）
+vim.opt.scrolloff = 3               -- 上下のコンテキスト行
+vim.opt.signcolumn = "yes"          -- 常時サインカラム（gitsigns用）
+vim.opt.colorcolumn = "100"         -- コード幅ガイド
+vim.opt.updatetime = 250            -- CursorHold応答性向上
+vim.opt.splitright = true           -- 垂直分割を右に
+vim.opt.splitbelow = true           -- 水平分割を下に
+vim.opt.inccommand = "nosplit"      -- 置換プレビュー
 
 -- OSC 52 を使ってクリップボードを設定
 vim.g.clipboard = {
@@ -157,8 +165,8 @@ vim.api.nvim_create_user_command("README", function()
 	end
 
 	local buf = vim.api.nvim_create_buf(false, true)
-	vim.api.nvim_buf_set_option(buf, "bufhidden", "wipe")
-	vim.api.nvim_buf_set_option(buf, "readonly", true)
+	vim.bo[buf].bufhidden = "wipe"
+	vim.bo[buf].readonly = true
 	vim.bo[buf].filetype = "markdown"
 
 	local lines = vim.fn.readfile(path)
@@ -178,8 +186,8 @@ vim.api.nvim_create_user_command("README", function()
 		border = "rounded",
 		style = "minimal",
 	})
-	vim.api.nvim_win_set_option(win, "wrap", true)
-	vim.api.nvim_win_set_option(win, "signcolumn", "no")
+	vim.wo[win].wrap = true
+	vim.wo[win].signcolumn = "no"
 
 	-- q で閉じる
 	vim.keymap.set("n", "q", "<Cmd>close<CR>", { buffer = true, silent = true })

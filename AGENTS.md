@@ -20,7 +20,9 @@ Termux uses `rm -rf` / `cp -r` instead of rsync (not available on Android).
   - `overseer.lua` — overseer template + タスク実行キーマップ
   - `asm.lua` — asm comment arch detection + `:AsmArch` command
   - `diff.lua` — diff mode wrap enforcement
-- `conductor/` — planning docs for ongoing work (read before making structural changes)
+  - `gitsigns.lua` — gitsigns 設定 + キーマップ（Git 関連）
+  - `todo-comments.lua` — TODO ハイライト + 検索キーマップ
+  - `trouble.lua` — 診断 UI + キーマップ
 
 ## キーマップ配置ルール
 
@@ -30,7 +32,8 @@ Termux uses `rm -rf` / `cp -r` instead of rsync (not available on Android).
 | `config/<name>.lua` | その機能ドメインのキーマップ + 設定 |
 | `plugins.lua` | プラグインconfigに密結合したマップ（adapter選択などplugin APIを直接呼ぶもの） |
 | `lsp.lua` | 全LSP関連マップ（native + Saga + diagnostics） |
-- `conductor/` — planning docs for ongoing work (read before making structural changes)
+
+- gitsigns, todo-comments, trouble の各キーマップは `config/<name>.lua` に配置。
 
 ## API keys
 
@@ -91,6 +94,20 @@ All formatters are disabled at the LSP level (`on_attach` sets `documentFormatti
 Runs `format_on_save` for most filetypes. **Explicitly excludes** `sh` / `bash` / `zsh`.
 Formatter configs: clang-format reads `--style=file`, prettier/prettierd reads `~/.prettierrc.json`.
 
+## Treesitter
+
+パーサーが大幅に追加されている。追加言語: `typescript`, `javascript`, `json`, `bash`, `html`, `css`, `java`, `csharp`, `toml`, `diff`, `regex`, `query`。
+
+## LSP additions
+
+- Python: `pyright` LSP + `ruff` linter/formatter を追加。
+- JavaScript/TypeScript: `eslint` LSP を追加。
+- `gopls` の codelens（テスト実行ボタン等）が有効化されている。
+
+## Mason tools
+
+`mason-tool-installer` に `pyright`, `ruff`, `eslint-lsp` が追加されている。
+
 ## DAP
 
 - Go: `dlv dap` with `--check-go-version=false --only-same-user=false`
@@ -126,7 +143,8 @@ Override with `:AsmArch {name}` (tab-completion for the 4 arch names).
 ## Known WIP / ongoing
 
 - `MdTableAlignAll` headless-mode failure — see `.ai-handoff.md` and `test_table.md` (test fixture)
-- `plugins.lua.bak` is a stale backup; the live file is `plugins.lua`
+- `conductor/` は削除済み。
+- `plugins.lua.bak` は削除済み。
 
 ## Conventions
 

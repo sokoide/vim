@@ -59,20 +59,20 @@ require("codecompanion").setup({
 					},
 				})
 			end,
-				opencode_go = function()
-					return require("codecompanion.adapters").extend("openai", {
-						env = { api_key = "OPENCODE_GO_API_KEY" },
-						url = "https://opencode.ai/zen/go/v1/chat/completions",
-						schema = { model = { default = "deepseek-v4-flash" } },
-					})
-				end,
-				opencode_go_pro = function()
-					return require("codecompanion.adapters").extend("openai", {
-						env = { api_key = "OPENCODE_GO_API_KEY" },
-						url = "https://opencode.ai/zen/go/v1/chat/completions",
-						schema = { model = { default = "deepseek-v4-pro" } },
-					})
-				end,
+			opencode_go = function()
+				return require("codecompanion.adapters").extend("openai", {
+					env = { api_key = "OPENCODE_GO_API_KEY" },
+					url = "https://opencode.ai/zen/go/v1/chat/completions",
+					schema = { model = { default = "deepseek-v4-flash" } },
+				})
+			end,
+			opencode_go_pro = function()
+				return require("codecompanion.adapters").extend("openai", {
+					env = { api_key = "OPENCODE_GO_API_KEY" },
+					url = "https://opencode.ai/zen/go/v1/chat/completions",
+					schema = { model = { default = "deepseek-v4-pro" } },
+				})
+			end,
 		},
 	},
 	strategies = {

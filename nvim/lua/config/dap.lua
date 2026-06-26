@@ -71,6 +71,19 @@ if vim.fn.filereadable(vim.fn.getcwd() .. "/.vscode/launch.json") == 0 then
 	dap.configurations.c = dap.configurations.cpp
 end
 
+-- DAP UI: auto open/close
+local dapui = require("dapui")
+
+dap.listeners.after.event_initialized["dapui_config"] = function()
+	dapui.open()
+end
+dap.listeners.before.event_terminated["dapui_config"] = function()
+	dapui.close()
+end
+dap.listeners.before.event_exited["dapui_config"] = function()
+	dapui.close()
+end
+
 -----------------------------------------------------
 -- Signs
 -----------------------------------------------------
@@ -124,7 +137,6 @@ vim.keymap.set("n", "<leader>dt", function()
 end, { desc = "DAP terminate" })
 
 -- DAP UI maximize/restore toggle
-local dapui = require("dapui")
 local dapui_maximized = false
 
 vim.keymap.set("n", "<leader>du", function()

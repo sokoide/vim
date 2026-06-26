@@ -6,6 +6,43 @@ local function on_attach(client, bufnr)
 	client.server_capabilities.documentRangeFormattingProvider = false
 end
 
+-----------------------------------------------------
+-- Python (pyright)
+-----------------------------------------------------
+vim.lsp.config("pyright", {
+	capabilities = capabilities,
+	settings = {
+		python = {
+			analysis = {
+				typeCheckingMode = "basic",
+				autoSearchPaths = true,
+				diagnosticMode = "workspace",
+			},
+		},
+	},
+})
+vim.lsp.enable("pyright")
+
+-----------------------------------------------------
+-- Python (ruff)
+-----------------------------------------------------
+vim.lsp.config("ruff", {
+	capabilities = capabilities,
+	on_attach = on_attach,
+})
+vim.lsp.enable("ruff")
+
+-----------------------------------------------------
+-- JavaScript/TypeScript (eslint)
+-----------------------------------------------------
+vim.lsp.config("eslint", {
+	capabilities = capabilities,
+	on_attach = function(client, bufnr)
+		client.server_capabilities.documentFormattingProvider = false
+	end,
+})
+vim.lsp.enable("eslint")
+
 ------------------------------------------------------
 -- Assembly (asm-lsp)
 -----------------------------------------------------
@@ -30,7 +67,6 @@ vim.lsp.config("gopls", {
 	on_attach = function(client, bufnr)
 		client.server_capabilities.documentFormattingProvider = false
 		client.server_capabilities.documentRangeFormattingProvider = false
-		-- client.server_capabilities.codeLensProvider = nil
 	end,
 
 	capabilities = capabilities,
@@ -42,6 +78,13 @@ vim.lsp.config("gopls", {
 	},
 })
 vim.lsp.enable("gopls")
+
+vim.api.nvim_create_autocmd({ "BufEnter", "CursorHold", "InsertLeave" }, {
+	group = vim.api.nvim_create_augroup("GoplsCodelens", { clear = true }),
+	callback = function()
+		vim.lsp.codelens.refresh()
+	end,
+})
 
 -----------------------------------------------------
 -- golangci-lint

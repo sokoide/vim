@@ -5,22 +5,10 @@ vim.keymap.set("n", "<leader>q", "<Cmd>copen<CR><Cmd>cfirst<CR>", { silent = tru
 
 -- make moves cursor to an error line if exists
 -- make! doesn't move cursor to an error line if exists
-vim.keymap.set("n", "<leader>ma", "<Cmd>make<CR><Cmd>copen<CR><Cmd>cfirst<CR>", { silent = true, desc = "Run make" })
-vim.keymap.set(
-	"n",
-	"<leader>mr",
-	"<Cmd>make run<CR><Cmd>copen<CR><Cmd>cfirst<CR>",
-	{ silent = true, desc = "Run make" }
-)
+vim.keymap.set("n", "<leader>ma", "<Cmd>OverseerRun make<CR>", { silent = true, desc = "Run make" })
+vim.keymap.set("n", "<leader>mr", "<Cmd>OverseerRun make_run<CR>", { silent = true, desc = "Run make run" })
 vim.keymap.set("n", "<leader>]", "<Cmd>qa<CR>", { silent = true, desc = "Quit all" })
-vim.keymap.set(
-	"n",
-	"<leader>mt",
-	"<Cmd>make test<CR><Cmd>copen<CR><Cmd>cfirst<CR>",
-	{ silent = true, desc = "Run make" }
-)
-vim.keymap.set("n", "<leader>]", "<Cmd>qa<CR>", { silent = true, desc = "Quit all" })
-
+vim.keymap.set("n", "<leader>mt", "<Cmd>OverseerRun make_test<CR>", { silent = true, desc = "Run make test" })
 -- markdown
 vim.keymap.set(
 	"n",

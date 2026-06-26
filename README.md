@@ -22,6 +22,13 @@
 | **Git**          | `vim-fugitive`                                  | Gitコマンド操作・Diff確認。          |
 | **タスク実行**   | `overseer.nvim`                                 | タスクランナー。                     |
 | **補完UI**       | `nvim-cmp`                                      | 補完メニューの表示管理。             |
+| **編集補助**     | `nvim-surround`, `nvim-autopairs`               | 括弧・クォート操作、自動ペア補完。   |
+| **キー表示**     | `which-key.nvim`                                | `<leader>` キー一覧ポップアップ表示。 |
+| **Git操作**      | `gitsigns.nvim`                                 | 変更行マーカー、blame、hunk操作。    |
+| **TODO管理**     | `todo-comments.nvim`                            | TODO/FIXME/HACK ハイライトと検索。   |
+| **診断UI**       | `trouble.nvim`                                  | エラー・警告の構造化一覧表示。       |
+| **LSP補助**      | `fidget.nvim`                                   | LSP 起動・進行状況インジケーター。   |
+| **Python**       | `pyright`, `ruff`                               | Python LSP + リンター/フォーマッター。 |
 | **Markdown**     | `render-markdown.nvim`, `markdown-preview.nvim` | 編集画面・ブラウザでのプレビュー。   |
 
 ---
@@ -63,12 +70,21 @@
 *   **警告一覧をQuickfixで表示**: `<leader>w`
 *   **LSP参照一覧**: `gR` または `<leader>fr`
 
+### 診断 (Trouble)
+*   **全診断表示**: `<leader>xx`
+*   **バッファ内診断**: `<leader>xw`
+*   **Quickfix表示**: `<leader>xq`
+
 ### 検索 (Telescope)
 *   **ファイル検索**: `<leader>ff` (カーソル下のワードで検索)
 *   **Live Grep**: `<leader>fg` (カーソル下のワードで検索)
 *   **バッファ検索**: `<leader>fb`
 *   **ドキュメント内シンボル**: `<leader>fs`
 *   **ワークスペース内シンボル**: `<leader>fS`
+
+### TODO管理 (todo-comments)
+*   **TODO検索 (Telescope)**: `<leader>ft`
+*   **前/次のTODO**: `[t`, `]t`
 
 ### AI アシスト (CodeCompanion)
 *   **AI アクションメニュー**: `<leader>aa`
@@ -109,12 +125,12 @@
 *   **テスト (関数単位)**: `<leader>tf` (カーソル下の Test 関数を実行)
 *   **テスト (ファイル単位)**: `<leader>tt`
 *   **テスト (全パッケージ)**: `<leader>ta`
-*   **make実行**: `<leader>ma` (Quickfixで結果表示)
 
 ### タスク実行 (Overseer)
 *   **タスク実行 (選択)**: `<leader>rr`
 *   **タスク一覧表示**: `<leader>R`
 *   **実行中タスクの停止**: `<leader>k`
+*   **make / make run / make test**: `<leader>ma` / `<leader>mr` / `<leader>mt` (Overseer 経由で実行)
 
 ### デバッグ (DAP)
 *   **実行/継続**: `<F5>` / `<A-r>`
@@ -124,9 +140,19 @@
 *   **ペイン最大化/復元**: `<leader>du`
 *   **デバッグ停止**: `<leader>dt`
 
+### Git 操作 (gitsigns)
+*   **インライン blame**: `<leader>gb`
+*   **Hunk stage**: `<leader>gs`
+*   **Hunk reset**: `<leader>gr`
+*   **Hunk preview**: `<leader>gp`
+*   **前/次の Hunk**: `[g`, `]g`
+
 ### Git 操作 (Fugitive)
 *   **Git Diff (Index)**: `<leader>gd` (`:Gvdiffsplit` - 垂直分割)
 *   **Git Diff (HEAD)**: `<leader>gh` (`:Gvdiffsplit HEAD` - 垂直分割)
+
+### キーマップ発見 (which-key)
+*   **キーマップポップアップ**: `<leader>` を押すと、全キーマップをポップアップメニューで表示。
 
 ### Markdown
 *   **RenderMarkdown 切り替え + テーブル整列**: `<leader>md`
@@ -195,6 +221,18 @@ dap.listeners.before.event_exited["dapui_config"]     = function() dapui.close()
 
 ---
 
+## その他の注意点
+
+- treesitter パーサーとして `typescript`, `javascript`, `json`, `bash`, `html`, `css`, `java`, `csharp`, `toml`, `diff`, `regex`, `query` を追加。
+- Python 開発者向けに `pyright` LSP + `ruff` linter/formatter を追加。
+- JavaScript/TypeScript 向けに `eslint` LSP を追加。
+- `gopls` の codelens（テスト実行ボタン等）が有効化されている。
+- 永続 undo が有効 (`undofile`)。
+- `<leader>` を押すと `which-key` が全キーマップを表示する。
+- `conductor/` ディレクトリは削除済み。
+
+---
+
 ## 設定ファイルの参照
 各プラグインの詳細設定や追加のキーマップについては、以下のファイルを確認してください。
 
@@ -204,3 +242,6 @@ dap.listeners.before.event_exited["dapui_config"]     = function() dapui.close()
 *   `nvim/lua/config/dap.lua`: DAP adapter設定 + キーマップ
 *   `nvim/lua/config/terminal.lua`: ターミナル toggle キーマップ
 *   `nvim/lua/config/overseer.lua`: タスク実行キーマップ
+*   `nvim/lua/config/gitsigns.lua`: Git 操作キーマップ
+*   `nvim/lua/config/todo-comments.lua`: TODO ハイライト・検索キーマップ
+*   `nvim/lua/config/trouble.lua`: 診断 UI キーマップ

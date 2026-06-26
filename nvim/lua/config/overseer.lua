@@ -34,6 +34,20 @@ overseer.register_template({
 	end,
 })
 
+-- 4. make test
+overseer.register_template({
+	name = "make_test",
+	builder = function()
+		return {
+			cmd = { "make", "test" },
+			components = {
+				{ "on_output_quickfix", open_on_match = true, error_only = true },
+				"default",
+			},
+		}
+	end,
+})
+
 -----------------------------------------------------
 -- Keymaps
 -----------------------------------------------------

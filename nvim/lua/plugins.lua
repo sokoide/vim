@@ -24,6 +24,28 @@ return {
 	-- devicons
 	{ "nvim-tree/nvim-web-devicons", lazy = true },
 
+	-- which-key（キーマップ発見性）
+	{
+		"folke/which-key.nvim",
+		event = "VeryLazy",
+		opts = {},
+	},
+
+	-- surround（括弧・クォート操作）
+	{
+		"kylechui/nvim-surround",
+		version = "*",
+		event = "VeryLazy",
+		config = true,
+	},
+
+	-- autopairs（括弧の自動閉じ）
+	{
+		"windwp/nvim-autopairs",
+		event = "InsertEnter",
+		config = true,
+	},
+
 	-- ファイラー
 	{
 		"nvim-neo-tree/neo-tree.nvim",
@@ -134,6 +156,9 @@ return {
 				"rust-analyzer",
 				"typescript-language-server",
 				"jdtls",
+				"pyright",
+				"ruff",
+				"eslint-lsp",
 				"prettierd",
 			}
 
@@ -209,18 +234,7 @@ return {
 		"rcarriga/nvim-dap-ui",
 		dependencies = { "mfussenegger/nvim-dap", "nvim-neotest/nvim-nio" },
 		config = function()
-			local dapui = require("dapui")
-			dapui.setup()
-			local dap = require("dap")
-			dap.listeners.after.event_initialized["dapui_config"] = function()
-				dapui.open()
-			end
-			dap.listeners.before.event_terminated["dapui_config"] = function()
-				dapui.close()
-			end
-			dap.listeners.before.event_exited["dapui_config"] = function()
-				dapui.close()
-			end
+			require("dapui").setup()
 		end,
 	},
 	{
@@ -238,6 +252,13 @@ return {
 				},
 			})
 		end,
+	},
+
+	-- LSP progress indicator
+	{
+		"j-hui/fidget.nvim",
+		event = "LspAttach",
+		opts = {},
 	},
 
 	-- Lspsaga
@@ -335,6 +356,26 @@ return {
 	},
 
 	-- Git
+	{
+		"lewis6991/gitsigns.nvim",
+		config = function()
+			require("config.gitsigns")
+		end,
+	},
+	{
+		"folke/todo-comments.nvim",
+		dependencies = { "nvim-lua/plenary.nvim", "nvim-telescope/telescope.nvim" },
+		config = function()
+			require("config.todo-comments")
+		end,
+	},
+	{
+		"folke/trouble.nvim",
+		dependencies = { "nvim-tree/nvim-web-devicons" },
+		config = function()
+			require("config.trouble")
+		end,
+	},
 	{
 		"tpope/vim-fugitive",
 	},
