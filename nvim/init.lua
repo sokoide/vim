@@ -150,6 +150,16 @@ vim.api.nvim_create_autocmd("FileType", {
 	end,
 })
 
+-- markdown: textwidth での自動折り返しを無効化（formatoptions から t を除去）
+-- textwidth は 80 に設定してあるため、有効化は formatoptions に t を戻すだけ。
+vim.api.nvim_create_autocmd("FileType", {
+	pattern = "markdown",
+	callback = function()
+		vim.opt_local.formatoptions = vim.opt_local.formatoptions - "t"
+		vim.opt_local.textwidth = 80
+	end,
+})
+
 -- asm comment detection
 require("config.asm")
 

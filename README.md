@@ -157,6 +157,16 @@
 ### Markdown
 *   **RenderMarkdown 切り替え + テーブル整列**: `<leader>md`
 *   **ブラウザプレビュー**: `:MarkdownPreviewToggle`
+*   **80桁自動折り返し**: 無効（デフォルト） / 有効化するには以下を実行:
+    ```
+    :setlocal formatoptions+=t
+    ```
+    再度無効化:
+    ```
+    :setlocal formatoptions-=t
+    ```
+    `textwidth` は 80 に設定済みのため、`formatoptions` の `t` フラグの ON/OFF のみで切替可能。
+    `init.lua` の autocmd 内で恒久設定もできる（`nvim/init.lua` の "markdown" FileType autocmd 参照）。
 
 ---
 
