@@ -89,6 +89,13 @@ end
 -- ヘッダ行(テーブルブロックの先頭行)は整列/境界検出を壊さないよう折り返さない。
 local function wrap_all_long_rows(max_width)
 	max_width = max_width or 80
+	-- strdisplaywidth は &ambiwidth の影響を受ける。日本語環境などで
+	-- ambiwidth=double だと曖昧幅文字(〜ー｜→－☆ 等)が幅2に過大計上され、
+	-- 表示幅80以下の行まで折り返されてしまう。測定中だけ single に固定し、
+	-- 終了後（エラー時含む）必ず元に戻す。
+	local saved_ambiwidth = vim.o.ambiwidth
+	local ok, err = pcall(function()
+		vim.o.ambiwidth = "single"
 	local cur = 1
 	while cur <= vim.fn.line("$") do
 		local line = vim.fn.getline(cur)
@@ -126,6 +133,11 @@ local function wrap_all_long_rows(max_width)
 				end
 			end
 		end
+	end
+	end)
+	vim.o.ambiwidth = saved_ambiwidth
+	if not ok then
+		error(err)
 	end
 end
 
