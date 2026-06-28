@@ -163,7 +163,8 @@ return {
 
 			if not is_termux then
 				table.insert(tools, "asm-lsp")
-				table.insert(tools, "clangd")
+				-- clangd should be installed already
+				-- table.insert(tools, "clangd")
 				-- csharp-language-server は AUR 版システムバイナリを使用（lsp.lua の cmd 参照）
 				table.insert(tools, "stylua")
 				-- ruff: manylinux wheel を pip インストール（非 Termux 環境）
