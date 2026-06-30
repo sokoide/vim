@@ -71,6 +71,8 @@ vim.g.clipboard = {
 		["*"] = require("vim.ui.clipboard.osc52").paste("*"),
 	},
 }
+vim.opt.clipboard = "unnamedplus"
+
 
 -- Auto-reload files changed externally
 local function watch_file(bufnr)
